@@ -1,0 +1,111 @@
+body {
+  background: #333333;
+}
+
+h3 {
+  text-align:center;
+}
+
+img {
+  border: 1px solid #55bbee;
+  border-radius: 7pt;
+  background: #666666;
+  padding: 5px;
+  margin: 5px;
+}
+
+.header {
+  display: block;
+  margin: 4px;
+  padding: 5px;
+  min-height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+img.header {
+  height: 180px;
+  width: 720px;
+}
+
+.footer {
+  display: block;
+  margin: 4px;
+  padding: 5px;
+  min-height: 50px;
+  border: 1px solid #55bbee;
+  border-radius: 7pt;
+  font-size:smaller;
+  background: #666666;
+  color: #FFFFFF;
+}
+
+.main {
+  min-height: 150px;
+  margin: 0px;
+  padding: 0px;
+  display: -webkit-flex;
+  display:         flex;
+  -webkit-flex-flow: row;
+         flex-flow: row;
+}
+ 
+.main > .article {
+  margin: 4px;
+  padding: 5px;
+  border: 1px solid #55bbee;
+  border-radius: 7pt;
+  background: #DDDDFF;
+  -webkit-flex: 3 1 50%;
+          flex: 3 1 50%;
+  -webkit-order: 2;
+          order: 2;
+}
+  
+.main > .one {
+  margin: 4px;
+  padding: 5px;
+  border: 1px solid #55bbee;
+  border-radius: 7pt;
+  background: #FFFFFF;
+  -webkit-flex: 1 6 25%;
+          flex: 1 6 25%;
+  -webkit-order: 1;
+          order: 1;
+}
+  
+.main > .three {
+  margin: 4px;
+  padding: 5px;
+  border: 1px solid #55bbee;
+  border-radius: 7pt;
+  background: #FFFFFF;
+  -webkit-flex: 1 6 25%;
+          flex: 1 6 25%;
+  -webkit-order: 3;
+          order: 3;
+}
+ 
+/* Too narrow to support three columns */
+@media all and (max-width: 640px) {
+  
+.main, #page {
+  -webkit-flex-flow: column;
+          flex-direction: column;
+}
+
+.main > .article, .main > .one, .main > .aside {
+  /* Return them to document order */
+  -webkit-order: 0;
+          order: 0;
+}
+  
+/*
+.main > .one, .main > .three, .header, .footer {
+   min-height: 50px;
+   max-height: 50px;
+}
+*/
+
+}
+

@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<link rel="shortcut icon" href="" type="image/x-icon" />
+<link rel="icon" href="" type="image/x-icon" />
+<link rel='stylesheet' type='text/css' href='<?php echo $styleSheet; ?>'>
+<script type="text/javascript">
+'use strict';
+
+function ElementFind( search_item, obj )
+{
+  if( !obj )
+    obj = top;
+  if( obj.document.getElementById && obj.document.getElementById(search_item) )
+    return obj.document.getElementById(search_item);
+  else if( obj.document.getElementsByName && obj.document.getElementsByName(search_item) )
+    return obj.document.getElementsByName(search_item);
+  else if (obj.document.all && obj.document.all[search_item])
+    return obj.document.all[search_item];
+  else if (obj.document[search_item])
+    return obj.document[search_item];
+  else if (obj.frames && obj.frames[search_item])
+    return obj.frames[search_item];
+  return false;
+}
+</script>
+<script src="./orders.js" type="text/javascript"></script>
+<?php echo $javascriptLookup ?>
+<title>Order Selection</title>
+</head><body>
+
+<table width=100%><tr>
+<td style="width:50%;"></td>
+<td class='account_tag'><?php echo $accountTag ?></td>
+<td class='back_tag'><?php echo $backUpTag ?></td>
+<td class='log_tag'><?php echo $logOutTag ?></td>
+</tr></table>
+
+<div style='color:#993333;'><?php echo $errorTag ?></div>
+
+<?php echo $formTag; ?>
+<h3>The <?php echo $gameObj['gameName']; ?> Game &bull; <?php echo $empireObj['textName']; ?> (<?php echo $empireObj['race']; ?>)</h3>
+<table id='ordersTable'>
+<tr><th>Order to Give</th><th colspan=2>Ship</th><th>Scenario/Empire</th><th>Available<br>Designs</th><th>Name</th></tr>
+<?php echo $permRows; ?>
+</table>
+<script type="text/javascript">
+<?php echo $jsRows ?>
+
+var numBlanks = <?php echo $BLANK_ORDERS_NUMBER ?>;
+var table = ElementFind( 'ordersTable' );
+
+for( var i=0; i<Object.keys(orderArray).length; i++)
+  table.innerHTML = table.innerHTML + buildRow( i );
+
+for( i=i; i < ( Object.keys(orderArray).length + numBlanks ); i++)
+  table.innerHTML = table.innerHTML + buildRow( i );
+
+
+</script>
+<p><?php echo $saveTag ?> &bull; Stockpiled <?php echo $empireObj['storedEP'] ?> EPs
+</form>
+
+<p><?php echo $processOutput ?>
+
+<p><div class='version'><?php echo "$VERSION<br>$LOGIN_VERSION"; ?></div>
+</body></html>

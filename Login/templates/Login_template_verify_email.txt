@@ -1,0 +1,16 @@
+Dear %1$s,
+
+Complete the e-mail verification process by following the given web URL link. You may click on the link below or copy it to your web-browser's address bar.
+
+%2$s
+
+Once you have visted the URL and verified your e-mail address, your account will be activated and you will be able to play in the campaigns.
+
+This code is used to verify your email address and is not your login username, not your login password, and not the URL to use when you want to log into the system.
+
+Thank you,
+
+%3$s
+
+This mailbox is unattended. Please do not reply to this message.
+

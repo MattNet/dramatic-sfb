@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<link rel="shortcut icon" href="" type="image/x-icon" />
+<link rel="icon" href="" type="image/x-icon" />
+<link rel='stylesheet' type='text/css' href='<?php echo $styleSheet; ?>'>
+<title>New Game</title>
+</head><body>
+
+<table width=100%><tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td class='back_tag'><?php echo $backUpTag ?></td>
+<td class='log_tag'><?php echo $logOutTag ?></td>
+</tr></table>
+
+<div style='color:#993333;'><?php echo $errorTag ?></div>
+
+<?php echo $formTag; ?>
+<table>
+<tr><td>Game Name:</td><td colspan=3><?php echo $gameNameTag ?></td></tr>
+<tr><td>Starting Year:</td><td><?php echo $startYearTag ?></td><td>Accept-Bids Module:</td><td><?php echo $modBidInTag ?></td></tr>
+<tr><td>Turns per Year:</td><td><?php echo $campaignSpeedTag ?></td><td>Report-Bids Module:</td><td><?php echo $modBidOutTag ?></td></tr>
+<tr><td>BPV Percentage is<br>Overwhelming Force:</td><td><?php echo $overwhelmingForceTag ?></td><td>Accept-Encounters Module:</td><td><?php echo $modEncInTag ?></td></tr>
+<tr><td>Allow Conjectural<br>Designs?</td><td><?php echo $allowConjecturalTag ?></td><td>Report-Encounters Module:</td><td><?php echo $modEncOutTag ?></td></tr>
+<tr><td>Allow Public Info<br>of Current Units:</td><td><?php echo $allowPublicUnitsTag ?></td><td>Largest Size Class:</td><td><?php echo $sizeClassTag ?></td></tr>
+<tr><td>Allow Public Info<br>of Scenarios:</td><td><?php echo $allowPublicScenTag ?></td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td colspan=4><?php echo $startTag ?></td></tr>
+</table>
+</form>
+
+<p><div class='version'><?php echo "$VERSION<br>$LOGIN_VERSION"; ?></div>
+</body></html>

@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<link rel="shortcut icon" href="" type="image/x-icon" />
+<link rel="icon" href="" type="image/x-icon" />
+<link rel='stylesheet' type='text/css' href='<?php echo $styleSheet; ?>'>
+<title>Game Adjustment</title>
+</head><body>
+
+<div class='back_tag'>&nbsp; &nbsp; <?php echo $backTag ?></div>
+<p>
+
+<?php echo $errorTag ?>
+<p><?php echo $formTag ?>
+<?php echo $selectTag ?>
+<?php echo $gameList; ?>
+</select>
+<?php echo $submitTag; ?>
+</form>
+
+</body></html>

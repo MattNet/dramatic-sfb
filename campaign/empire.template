@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<link rel="shortcut icon" href="" type="image/x-icon" />
+<link rel="icon" href="" type="image/x-icon" />
+<link rel='stylesheet' type='text/css' href='<?php echo $styleSheet; ?>'>
+<script>
+'use strict';
+var jsMultiRedirect = function ( objA, objB, changeText )
+{
+  var tagValueA = objA.value;
+  var tagNameA = objA.name;
+  var tagValueB = objB.value;
+  var tagNameB = objB.name;
+  var URL = "<?php echo $jsRedirectURL ?>&"+tagNameA+"="+tagValueA+"&"+tagNameB+"="+tagValueB;
+  var conf = confirm("Are you sure you want to go change "+changeText+"?");
+  if( conf )
+    window.location = URL;
+  return false;
+}
+var jsRedirect = function ( obj, changeText )
+{
+  var conf = confirm("Are you sure you want to go change "+changeText+"?");
+  if( conf )
+      noIssueRedirect( obj );
+  return false;
+}
+var noIssueRedirect = function ( obj )
+{
+  var tagValue = obj.value;
+  var tagName = obj.name;
+  var URL = "<?php echo $jsRedirectURL ?>&"+tagName+"="+tagValue;
+  window.location = URL;
+}
+</script>
+<title>Add/Modify Empire</title>
+</head><body>
+
+<table width=100%><tr>
+<td style="width:50%"></td>
+<td class='back_tag'><?php echo $backUpTag ?></td>
+<td class='log_tag'><?php echo $logOutTag ?></td>
+</tr></table>
+
+<div style='color:#993333;'><?php echo $errorTag ?></div>
+
+<?php echo $formTag; ?>
+<table>
+<tr><th colspan=2>The <?php echo $gameName; ?> Game</th>
+   <th colspan=2><?php echo $playerName; ?></th></tr>
+<tr style="height:1%;"><td>Game Status:</td><td><?php echo $gameStatus; ?></td>
+   <?php if( $interestHTML ) { ?><td>Assign Player to Empire:</td><td><?php echo "$interestHTML"; ?></td>
+   <?php } else { ?><td colspan=2 style='text-align:center;'><?php echo $playerEmail; ?></td><?php } ?></tr>
+<tr style="height:1%;"><td>Latest Turn:</td><td><?php echo $gameTurn; ?></td></tr>
+<tr style="height:1%;"><td>Turns per Year:</td><td><?php echo $gameSpeed; ?></td>
+   <td>Empire's Current Race:</td><td><?php echo $actionEmpireTag; ?></td></tr>
+<tr style="height:1%;"><td>Current Year:</td><td><?php echo $gameYear; ?></td></tr>
+<tr style="height:1%;"><td>Largest Ship<br>Allowed:</td><td><?php echo $largestSizeClass; ?></td>
+   <td colspan=2 class='playerAction'><?php echo $actionPlayerTag; ?></td></tr>
+<tr style="height:1%;"><td colspan=2>&nbsp;</td></tr>
+<?php if( $inputEmpireObj ) { ?>
+<tr style="height:1%;"><th colspan=2><?php echo $inputEmpireObj->modify('textName')." - ".$empireName ?> (<?php echo $playerUserName; ?>)</th><td rowspan=10><?php echo $addShipsTag; ?></td></tr>
+<tr style="height:1%;"><td>Econ Pt Income:</td><td><?php echo $resetIncome; ?></td></tr>
+<tr style="height:1%;"><td>Econ Pt Stockpile:</td><td><?php echo $resetStockpile; ?></td></tr>
+<tr style="height:1%;"><td>Borders:</td><td><?php echo $empBorders; ?></td></tr>
+<?php } ?>
+</table></form>
+<?php echo $logTag; ?>
+
+<p><div class='version'><?php echo "$VERSION<br>$LOGIN_VERSION"; ?></div>
+</body></html>

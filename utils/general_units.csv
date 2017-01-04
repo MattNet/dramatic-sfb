@@ -1,0 +1,44 @@
+(empire "General" is assumed),designator,BPV,commandRating,carrier,sidcorAtk,sidcorDmg,sidcorCAtk,sidcorCDmg,sidcorEW,switches
+Space Eel,	100,0,0,0,0,0,0,0,
+Space Boar,	90,0,0,0,0,0,0,0,
+Planet Crusher,	100,0,0,0,0,0,0,0,
+Banshee,	15,0,0,0,0,0,0,0,
+F-S,		12,2,0,0,0,0,0,0,
+F-L,		18,5,0,0,0,0,0,0,
+S-Q,		40,3,0,0,0,0,0,0,
+L-Q,		81,3,0,0,0,0,0,0,
+MB w/ PH-1 and CarMs,		100,6,0,0,0,0,0,1,scout
+MB w/ PH-1 Cloak and CarMs,	115,6,0,0,0,0,0,1,scout
+MB w/ PH-2 and CarMs,		96,6,0,0,0,0,0,1,scout
+MB w/ PH-G and CarMs,		98,6,0,0,0,0,0,1,scout
+BS w/ CarMs and PAM,		148,8,0,0,0,0,0,2,scout
+BS w/ CarMs and HPM,		184,8,0,0,0,0,0,2,scout
+BATS w/ CarMs and PAM,		228,9,0,0,0,0,0,3,scout
+BATS w/ CarMs and HPM,		264,9,0,0,0,0,0,3,scout
+CPL w/ P-CCs,	32,0,0,0,0,0,0,0,
+CPP,		72,0,0,0,0,0,0,0,
+SAM w/ P-CCs,	52,0,0,0,0,0,0,1,scout
+BSC w/ CarMs and PAM,		146,8,0,0,0,0,0,2,scout
+BSC w/ CarMs and HPM,		190,8,0,0,0,0,0,2,scout
+FRD,		50,0,0,0,0,0,0,0,
+MCD,		50,0,0,0,0,0,0,0,
+DEFSAT,		20,0,0,0,0,0,0,0,
+GBDP,		14,0,0,0,0,0,0,0,
+GBD1,		8,0,0,0,0,0,0,0,
+GBD2,		7,0,0,0,0,0,0,0,
+GBDD,		10,0,0,0,0,0,0,0,
+GBDH,		14,0,0,0,0,0,0,0,
+GBFB,		8,0,0,0,0,0,0,0,
+GBDT,		14,0,0,0,0,0,0,0,
+GBDF,		10,0,0,0,0,0,0,0,
+GBPT,		8,0,0,0,0,0,0,0,
+GBMB,		12,0,0,0,0,0,0,0,
+GBMD,		12,0,0,0,0,0,0,0,
+GBME,		12,0,0,0,0,0,0,0,
+GRG,		14,0,0,0,0,0,0,0,
+GLG,		14,0,0,0,0,0,0,0,
+GHD,		8,0,0,0,0,0,0,0,
+GSA,		8,0,0,0,0,0,0,0,
+GMS,		8,0,0,0,0,0,0,0,
+GSO,		10,0,0,0,0,0,0,0,
+

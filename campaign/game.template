@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<link rel="shortcut icon" href="" type="image/x-icon" />
+<link rel="icon" href="" type="image/x-icon" />
+<link rel='stylesheet' type='text/css' href='<?php echo $styleSheet; ?>'>
+<script type="text/javascript">
+'use strict';
+var jsRedirect = function ( obj, changeText )
+{
+  var conf = confirm("Are you sure you want to go change "+changeText+"?");
+  if( conf )
+      noIssueRedirect( obj );
+  return false;
+}
+var noIssueRedirect = function ( obj )
+{
+  var tagValue = obj.value;
+  var tagName = obj.name;
+  var URL = "<?php echo $jsRedirectURL ?>&"+tagName+"="+tagValue;
+  window.location = URL;
+}
+</script>
+<title>Game Summary</title>
+</head><body>
+
+<table width=100%><tr>
+<td>State of your Orders: <i><?php echo $empAdvanceState ?></i></td>
+<td class='orders_tag'><?php echo $ordersTag ?></td>
+<td class='advance_tag'><?php echo $canAdvanceTag ?></td>
+<td class='back_tag'><?php echo $backUpTag ?></td>
+<td class='log_tag'><?php echo $logOutTag ?></td>
+</tr></table>
+
+<div style='color:#993333;'><?php echo $errorTag ?></div>
+
+<?php echo $formTag; ?>
+<table>
+<tr><th colspan=2>The <?php echo $gameObj['gameName']; ?> Game</th></tr>
+<tr style="height:1%;"><td>Moderator:</td><td><?php echo $gameModTag; ?></td>
+<td rowspan=15 valign='top' class='empire_list'><?php echo $empList; ?></td></tr>
+<tr style="height:1%;"><td>Game Status:</td><td><?php echo $gameObj['status']; ?></td></tr>
+<tr style="height:1%;"><td>Latest Turn:</td><td><?php echo $gameTurn; ?></td></tr>
+<tr style="height:1%;"><td>Turns per Year:</td><td><?php echo $gameObj['campaignSpeed']; ?></td></tr>
+<tr style="height:1%;"><td>Current Year:</td><td><?php echo $gameObj['gameYear']; ?></td></tr>
+<tr style="height:1%;"><td>Largest Ship<br>Allowed:</td><td><?php echo $largestSizeClass; ?></td></tr>
+<tr style="height:1%;"><td colspan=2><?php echo $allowConjTag; ?></td></tr>
+<tr style="height:1%;"><td colspan=2><b><?php echo $turnSection; ?></b></td></tr>
+<tr style="height:1%;"><td colspan=2><a href='<?php echo $RULES_LINK ?>' target='_BLANK' class='rules_link'>Campaign Game Rules</a></td></tr>
+<tr style="height:1%;"><td colspan=2>&nbsp;</td></tr>
+<?php if( $gameObj['status'] == Game::STATUS_PROGRESSING && ! empty($empireObj) ) { ?>
+<tr style="height:1%;"><th colspan=2><?php echo $empireObj->modify('textName')." ({$empireObj->modify('race')})"; ?></th></tr>
+<tr style="height:1%;"><td>Econ Pt Income:</td><td><?php echo $empireObj->modify('income'); ?></td></tr>
+<tr style="height:1%;"><td>Econ Pt Stockpile:</td><td><?php echo $empireObj->modify('storedEP'); ?></td></tr>
+<?php } ?>
+<?php if( $raceID == 0 ) { ?>
+<tr style="height:1%;"><td>Rename Game:</td><td><?php echo $renameTag; ?></td></tr>
+<tr style="height:1%;"><td colspan=2>LOGIN MODULES</td></tr>
+<tr style="height:1%;"><td>Bids-In:</td><td><?php echo $moduleBidInTag; ?></td></tr>
+<tr style="height:1%;"><td>Bids-Out:</td><td><?php echo $moduleBidOutTag; ?></td></tr>
+<tr style="height:1%;"><td>Encounters-In:</td><td><?php echo $moduleEncInTag; ?></td></tr>
+<tr style="height:1%;"><td>Encounters-Out:</td><td><?php echo $moduleEncOutTag; ?></td></tr>
+<?php } ?>
+<tr style="height:1%;"><td><?php echo $checkOrdersTag; ?></td><td><?php echo $checkEncountersTag; ?></td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr style="height:1%;"><td><?php echo $advanceOrdersTag; ?></td><td><?php echo $advanceEncountersTag; ?></td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td><?php echo $utilityCSVTag; ?></td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td colspan=2 rowspan=3><?php echo $closeTag; ?>&nbsp;<?php echo $startTag; ?><?php echo $isInterestedTag ?></td></tr>
+</table></form>
+<?php echo $logTag; ?>
+
+<p><div class='version'><?php echo "$VERSION<br>$LOGIN_VERSION"; ?></div>
+</body></html>

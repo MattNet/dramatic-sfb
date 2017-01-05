@@ -1,1 +1,15 @@
-/home/www/sfbdrama/docs/feeds.txt
+Input and Output feeds for the various modules
+
+The modules are expected to accept or give a well-formatted feed back to the program.
+
+There are four feeds:
+* The feed from the module that retrieves the bidding information from where the players are putting it. (The bidding-input module)
+* The feed from the program to the module that announces the encounters-to-be-run to the players. (The bidding-output module)
+* The feed from the module that retrieves the encounter results and the player's other orders and gives it to the program. (The orders-input module)
+* The feed from the program that announces the encounters to be bid upon. (The orders-output module)
+
+The Bidding-Input feed is an ObjList of Order objects
+The Bidding-Output feed is an ObjList of Encounter objects
+The Orders-Input feed is an ObjList of Order objects
+The Orders-Output feed is an ObjList of Encounter objects (minus any ship assignments)
+

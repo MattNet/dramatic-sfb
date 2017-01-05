@@ -1,1 +1,19 @@
-/home/www/sfbdrama/docs/orders.txt
+This document describes the orders that the engine recognizes and the format they are tokenized into. The empire, game, and turn are implied in the orders. The player of the empire is assumed.
+
+
+Orders Descriptions:
+
+Bid ship with ID# XX to scenario with ID# YY : bidXXtoYY
+Build a ship with the design ID# of XX : buildXX
+Build a ship with the design ID# of XX and give it the name ZZZZ : buildXXnamed"ZZZZ"
+Convert/refit ship with ID# XX to design ID# YY : convertXXtoYY
+Ship with ID# XX is crippled : crippleXX
+The "defending" player in encounter with ID# XX was defeated : defeatXX
+Ship with ID# XX is destroyed : destroyXX
+Gift ship with ID# XX to empire with ID# YY : giftXXempireYY - used when capturing
+Hold ship with ID# XX out for repairs : repairXX
+The "defending" player in encounter with ID# XX was victorious : victoryXX
+Give the ship with ID# XX the name ZZZZ: nameXXship"ZZZZ"
+Give the empire with ID# XX the name ZZZZ: nameXXempire"ZZZZ"
+
+

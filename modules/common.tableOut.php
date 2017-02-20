@@ -70,7 +70,7 @@ function loadOneObject( $objName, $ID, $turn=-1 )
 # - (object) The current game object
 # - (object) The object of the player's empire
 # - (object) A list-object of the in-play units
-# - (object) A list-object of the encounters
+# - (object) A list-object of the encounters ['name', 'attacker|defender', 'icon image path' ]
 # - (object) A list-object of the empires
 # Returns:
 # - None, but writes a file
@@ -110,18 +110,18 @@ function dataFileOut( $gameObj, $empireObj, $playersUnits, $encounterObjs, $empi
   $output .= "\n};\n";
 
   // generate the list of built units
-  $output .= "var unitList = [\n";
+  $output .= "var unitList = {\n";
   $objValues = $playersUnits->objByID;
   $tempArray = array(); // stuff the output here, then sort it before emitting it
   foreach( $objValues as $key=>$value )
     if( $value->modify('empire') == $empireObj->modify('id') )
-      $tempArray["$key"] = ", '{$value->specs['designator']} &quot;{$value->modify('textName')}&quot;' ],";
+      $tempArray["$key"] = ", '{$value->specs['designator']} &quot;{$value->modify('textName')}&quot;', '{$value->specs['baseHull']}' ],";
   natcasesort($tempArray); // sort the array
   foreach( $tempArray as $key=>&$value ) // put the keys into the string
-    $value = "[ '$key'$value";
+    $value = "'$key': [ '$key'$value";
   $output .= implode( "\n", $tempArray );
   $output = rtrim( $output, ",");
-  $output .= "\n];\n";
+  $output .= "\n};\n";
 
   // generate the list of available hull designs
   $output .= "var designList = {\n";
@@ -146,7 +146,8 @@ function dataFileOut( $gameObj, $empireObj, $playersUnits, $encounterObjs, $empi
     else // not a participant in this encounter
       continue;
 
-    $output .= "'$key': [ '{$SCENARIOS[ $value->modify('scenario') ][0]}', '$status' ],\n";
+    $scenarioIndex = $value->modify('scenario');
+    $output .= "'$key': [ '{$SCENARIOS[ $scenarioIndex ][0]}', '$status', '{$SCENARIOS[ $scenarioIndex ][6]}' ],\n";
   }
   $output = rtrim( $output, "\n,");
   $output .= "\n};\n";

@@ -1,0 +1,170 @@
+body{
+  background: #000000 url('./gorn_back.png') no-repeat fixed 100%/auto;
+
+  color: #FFFFFF;
+}
+
+img.scenario{
+  height:60px;
+  width:68px;
+}
+a
+{
+  text-decoration: none;
+  color: #AA1111;
+}
+a:hover, a:focus
+{
+  color: #AA1111;
+}
+a:visited
+{
+  color: #FFFF99;
+}
+
+.in_games > a, .open_games > a, .empire_entry > a, .rules_link, .button > a
+{
+  display: inline-block;
+  height: 18px;
+  border-top: 1px solid #FF0000;
+  background: #000000;
+  background: -webkit-gradient(linear, left top, left bottom, from(#AA1111), to(#993333));
+  background: -webkit-linear-gradient(top, #AA1111, #993333);
+  background: -moz-linear-gradient(top, #AA1111, #993333);
+  background: -ms-linear-gradient(top, #AA1111, #993333);
+  background: -o-linear-gradient(top, #AA1111, #993333);
+  padding: 5px 10px;
+  -webkit-border-radius: 8px 8px 0px 0px;
+  -moz-border-radius: 8px 8px 0px 0px;
+  border-radius: 8px 8px 0px 0px;
+  -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  box-shadow: rgba(0,0,0,1) 0 1px 0;
+  text-shadow: rgba(0,0,0,.4) 0 1px 0;
+  color: white;
+  font-size: 14px;
+  vertical-align: middle;
+}
+.in_games > a:visited {
+}
+.in_games > a:hover, .in_games > a:focus, .open_games > a:hover, 
+.open_games > a:focus, .empire_entry > a:hover, .empire_entry > a:focus, 
+.rules_link:focus
+{
+  display: inline-block;
+  height: 18px;
+  border-top: 1px solid #c0c000;
+  background: #000000;
+  background: -webkit-gradient(linear, left top, left bottom, from(#AAAA00), to(#FFCCCC));
+  background: -webkit-linear-gradient(top, #AAAA00, #FFCCCC);
+  background: -moz-linear-gradient(top, #AAAA00, #FFCCCC);
+  background: -ms-linear-gradient(top, #AAAA00, #FFCCCC);
+  background: -o-linear-gradient(top, #AAAA00, #FFCCCC);
+  padding: 5px 10px;
+  -webkit-border-radius: 8px 8px 8px 8px;
+  -moz-border-radius: 8px 8px 8px 8px;
+  border-radius: 8px 8px 8px 8px;
+  -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  box-shadow: rgba(0,0,0,1) 0 1px 0;
+  text-shadow: rgba(0,0,0,.4) 0 1px 0;
+  color: white;
+  font-size: 14px;
+  vertical-align: middle;
+}
+.in_games > a:active, .open_games > a:active, .empire_entry > a:active, .rules_link:active
+{
+  display: inline-block;
+  height: 18px;
+  border-top: 1px solid #c0c000;
+  background: #000000;
+  background: -webkit-gradient(linear, left top, left bottom, from(#AA1111), to(#993333));
+  background: -webkit-linear-gradient(top, #AA1111, #993333);
+  background: -moz-linear-gradient(top, #AA1111, #993333);
+  background: -ms-linear-gradient(top, #AA1111, #993333);
+  background: -o-linear-gradient(top, #AA1111, #993333);
+  padding: 5px 10px;
+  -webkit-border-radius: 8px 8px 8px 8px;
+  -moz-border-radius: 8px 8px 8px 8px;
+  border-radius: 8px 8px 8px 8px;
+  -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  box-shadow: rgba(0,0,0,1) 0 1px 0;
+  text-shadow: rgba(0,0,0,.4) 0 1px 0;
+  color: white;
+  font-size: 14px;
+  vertical-align: middle;
+}
+.empire_entry > a.player:hover, .empire_entry > a.player:focus
+{
+}
+.empire_entry > a.player:active
+{
+}
+.open_games {
+}
+.open_games_header {
+}
+.in_games {
+}
+.in_games_header {
+}
+.empire_list {
+}
+
+.orders_tag > a, .account_tag > a, .advance_tag > a, .back_tag > a, .log_tag > a, .playerAction > a
+{
+  display: inline-block;
+  height: 18px;
+  border-top: 1px solid #FFFFFF;
+  background: #000000;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
+  background: -webkit-linear-gradient(top, #ffffff, #cccccc);
+  background: -moz-linear-gradient(top, #ffffff, #cccccc);
+  background: -ms-linear-gradient(top, #ffffff, #cccccc);
+  background: -o-linear-gradient(top, #ffffff, #cccccc);
+  padding: 2px 10px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  box-shadow: rgba(0,0,0,1) 0 1px 0;
+  color: #000000;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.crippled {
+  color: #818100;
+}
+.version {
+  font-size: x-small;
+}
+.scenario_table
+{
+}
+.scenario_table_empire
+{
+}
+.scenario_table_scenarios
+{
+  display: inline-block;
+  background: #c00000;
+  padding: 2px 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: rgba(0,0,0,1) 0 2px 0;
+  -moz-box-shadow: rgba(0,0,0,1) 0 2px 0;
+  box-shadow: rgba(0,0,0,1) 0 2px 0;
+  color: #000000;
+  vertical-align: middle;
+}
+.scenario_table_units
+{
+}
+.bid_orders
+{
+  background: #c00000;
+}

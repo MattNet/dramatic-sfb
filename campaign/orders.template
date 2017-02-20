@@ -48,13 +48,21 @@ function ElementFind( search_item, obj )
 
 var numBlanks = <?php echo $BLANK_ORDERS_NUMBER ?>;
 var table = ElementFind( 'ordersTable' );
+var orderSize = 0;
 
-for( var i=0; i<Object.keys(orderArray).length; i++)
-  table.innerHTML = table.innerHTML + buildRow( i );
+// find the size of the orderArray without bid orders
+for( var i=0; i < Object.keys(orderArray).length; i++)
+  if( orderArray[ Object.keys(orderArray)[i] ][0] != 'bid' )
+    orderSize++;
 
-for( i=i; i < ( Object.keys(orderArray).length + numBlanks ); i++)
-  table.innerHTML = table.innerHTML + buildRow( i );
+for( i=0; i<Object.keys(unitList).length; i++)
+  table.innerHTML = table.innerHTML + shipRow( i, Object.keys(unitList)[i] );
 
+for( var listKey=0; i < (Object.keys(unitList).length + orderSize ); i++, listKey++)
+  table.innerHTML = table.innerHTML + buildRow( i, listKey );
+
+for( ; i < ( Object.keys(unitList).length + orderSize + numBlanks ); i++, listKey++)
+  table.innerHTML = table.innerHTML + buildRow( i, listKey );
 
 </script>
 <p><?php echo $saveTag ?> &bull; Stockpiled <?php echo $empireObj['storedEP'] ?> EPs

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" baseProfile="full" style="fill-opacity: 1; color-interpolation: auto; stroke: black; text-rendering: auto; stroke-linecap: square; stroke-miterlimit: 10; stroke-opacity: 1; shape-rendering: auto; fill: black; stroke-dasharray: none; font-weight: normal; stroke-width: 1; font-family: 'Dialog'; font-style: normal; stroke-linejoin: miter; stroke-dashoffset: 0pt; image-rendering: auto;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="45" height="45">
+  <defs id="genericDefs"/>
+<g style="fill: black; stroke: darkgrey;"><path d="M10 41l-10 -20 10 -20 25 0 10 20 -10 20 Z"/></g>
+<g style="fill: green; font-family: monospace; stroke: yellow;" transform="translate(23,21)">
+
+<!-- Lyran CL -->
+<rect x="-2" y="-3" width="4" height="7" />
+<path d="M -2 -3 l -2 -2 0 -4 -2 0 0 4 -2 2 0 8  3 6  3 -6 Z"/>
+<path d="M  2 -3 l 2  -2 0 -4  2 0 0 4  2 2 0 8 -3 6 -3 -6 Z"/>
+<rect x="4" y="8" width="3" height="7" />
+<rect x="-7" y="8" width="3" height="7" />
+
+</g>
+</svg>

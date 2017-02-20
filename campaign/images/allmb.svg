@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" baseProfile="full" style="fill-opacity: 1; color-interpolation: auto; stroke: black; text-rendering: auto; stroke-linecap: square; stroke-miterlimit: 10; stroke-opacity: 1; shape-rendering: auto; fill: black; stroke-dasharray: none; font-weight: normal; stroke-width: 1; font-family: 'Dialog'; font-style: normal; stroke-linejoin: miter; stroke-dashoffset: 0pt; image-rendering: auto;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="45" height="45">
+  <defs id="genericDefs"/>
+<g style="fill: black; stroke: darkgrey;"><path d="M10 41l-10 -20 10 -20 25 0 10 20 -10 20 Z"/></g>
+<g style="fill: blue; font-family: monospace; stroke: white;" transform="translate(23,21)">
+
+<!-- Mobile Base -->
+<path d="M 0 -7.5 l 0 7.5 6 -4.5 c 4 -3 -6 -7.5 -6 -4" />
+<path d="M 0 7.5 l 0 -7.5 -6 4.5 c -4 3 6 7.5 6 4" />
+<path d="M -1.25 -15 l 2.5 0 0 30 -2.5 0 Z" />
+<path d="M 13 -8 l -1.7 -2.3 -24 18 1.7 2.3 Z" />
+<path d="M 13 8 l -1.7 2.3 -24 -18 1.7 -2.3 Z" />
+<circle cx="0" cy="0" r="3" style="stroke-width: 0" />
+
+</g>
+</svg>

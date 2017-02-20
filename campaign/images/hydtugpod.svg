@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" baseProfile="full" style="fill-opacity: 1; color-interpolation: auto; stroke: black; text-rendering: auto; stroke-linecap: square; stroke-miterlimit: 10; stroke-opacity: 1; shape-rendering: auto; fill: black; stroke-dasharray: none; font-weight: normal; stroke-width: 1; font-family: 'Dialog'; font-style: normal; stroke-linejoin: miter; stroke-dashoffset: 0pt; image-rendering: auto;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="45" height="45">
+  <defs id="genericDefs"/>
+<g style="fill: black; stroke: darkgrey;"><path d="M10 41l-10 -20 10 -20 25 0 10 20 -10 20 Z"/></g>
+<g style="fill: lightgrey; font-family: monospace; stroke: green;" transform="translate(23,21)">
+
+<!-- Hydran Tug w/ Pod -->
+<rect x="-5" y="-3" width="10.5" height="9" />
+<path d="M 0 -12 l -1.75 0 -3 6 1.25 1.5 7 0 1.25 -1.5 -3 -6 -1.75 0 Z" />
+<path d="M -3.5 -4.5 l 7 0 0 11.6 1 1 0 1.7 -8.5 0 0 -1.7 1 -1 0 -11.6 Z" />
+<rect x="-4" y="9.8" width="2.5" height="5.5" />
+<rect x="-1" y="9.8" width="2.5" height="5.5" />
+<rect x="2" y="9.8" width="2.5" height="5.5" />
+
+</g>
+</svg>

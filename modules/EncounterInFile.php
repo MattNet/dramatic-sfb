@@ -23,6 +23,7 @@ function EncounterInFile( $gameObj, $turn )
   $tempFileName = sprintf( $ENCOUNTER_IN_FILE_REGEX, $turn, $gameID );
 
   $fileList = array();
+  $resultID = 0; // ID of order, if any
 
   $dirListing = scandir( $ENCOUNTER_IN_DIRECTORY );
   foreach( $dirListing as $fileItem )
@@ -51,10 +52,14 @@ function EncounterInFile( $gameObj, $turn )
       if( ! empty($order) )
         $orderCollection[] = $order;
     }
-
     // find the old order entry and update it
     $order = new Orders( array( 'game'=> $gameID, 'empire'=> $fileData['empireID'], 'turn' => $turn ) );
-    $order->getID('empire');
+    $resultID = $order->getID('empire', 'turn');
+    if( ! $resultID ) // if there was no ID, then this is a new order. create it
+    {
+      $order->create();
+      $order->getID('empire', 'turn');
+    }
     $order->modify( 'orders', implode( ",", $orderCollection ) );
     $order->update();
 

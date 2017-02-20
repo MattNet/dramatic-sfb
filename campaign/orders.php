@@ -66,7 +66,6 @@ if( $raceID <= 0 )
     $errors .= "Could not get order file for empire #$raceID.";
     redirect( "$GOTO_ON_BACK".$stdURLSuffix."&".$ERROR_GET_STRING.urlencode($errors) );
   }
-
 // bounce if the empire doesn't belong in this game
 if( ! sanitizeRace( $empireObj, $gameID ) )
 {
@@ -120,8 +119,7 @@ foreach( $dirListing as $fileItem )
   break;
 }
 
-// do nothing if $orderFileName didn't exist
-// otherwise, pull orders from the order file
+// if $orderFileName exists, pull orders from the order file
 if( file_exists($orderFileName) )
 {
   $ordersFileContents = file( $orderFileName, FILE_SKIP_EMPTY_LINES );
@@ -180,7 +178,7 @@ exit();
   ###
 function buildRow( $rowIndex, $orderArray = array(), $jsonData = array() )
 {
-  global $SCENARIOS, $raceID, $gameObj;
+  global $SCENARIOS, $gameObj, $empireObj;
 
   $design = "";
   $makeDropDown = true; // true to emit JSON to auto-select inputs. False to emit un-changable text and hidden inputs
@@ -309,8 +307,12 @@ function buildRow( $rowIndex, $orderArray = array(), $jsonData = array() )
     switch( $type )
     {
     case 'bid':
-      $output .= "Bid ship ".$unitList[$ship]." to encounter ";
-      $output .= "#$scenario: '".$encounterList[$scenario][0]."'";
+      $output .= "<a href='#' title='{$unitList[$ship][1]}'><img src='";
+      $output .= "/campaign/images/".strtolower(substr( $empireObj['race'], 0,3)).strtolower($unitList[$ship][2]).".svg";
+      $output .= "' alt='{$unitList[$ship][1]}' class='scenario'></a> bids to encounter ";
+      $output .= "<a href='#' title='{$encounterList[$scenario][0]} #$scenario'><img src='../scenarios/";
+      $output .= $encounterList[$scenario][2]."' alt='{$encounterList[$scenario][0]} #$scenario";
+      $output .= "' class='scenario'></a>\n";
       break;
     case 'build':
       $output .= "Build a ".$designList[$design][0]." named \"$text\"";

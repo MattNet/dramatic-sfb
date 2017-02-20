@@ -6,7 +6,7 @@ $AUTO_ORDER_ONE_SIDED_SCENARIOS = true;	// automatically give orders on how each
 $BID_IN_DIRECTORY = dirname(__FILE__) . "/files/";	// folder to read the files that the various modules reference. Needs a trailing slash
 $BID_IN_FILE_REGEX = "(\d+)input%2\$sto%1\$s.txt";	// the format of the input filename for the Bid Module(s)
 $BID_OUT_FILE_FORMAT = "%3\$soutput%2\$sto%1\$s.html";	// the format of the output filename for the Bid Module(s)
-$BLANK_ORDERS_NUMBER = 3;	// Number of blank orders to display on the orders-page
+$BLANK_ORDERS_NUMBER = 5;	// Number of blank orders to display on the orders-page
 $DATA_OUT_FILE_FORMAT = "%3\$sdata%2\$sto%1\$s.js";	// the format of the data filename for the Bid & Encounter Module(s)
 $DATA_OUT_FILE_REGEX = "%2\$sdata%1\$sto(\d+).js";	// the format of the data filename for the Bid & Encounter Module(s)
 $DEFAULT_PRIVILEDGE = "Iron";
@@ -21,7 +21,7 @@ $RULES_LINK = "../docs/rules.html";	// the URL to get to the campaign's rules
 $EMAIL_ADDRESS = "sfbdrama.mattnet.org";	// the hostname portion of the email address that the update emails originate from
 $STOP_ON_MISSING_ORDERS = true;	// set to true if the turn processing should stop when someone has no orders in
 $STOP_ON_UNFINISHED_SCENARIOS = true;	// set to true if the turn processing should stop when there are unresolved scenarios
-$VERSION = "StarFleetDramaCampaign v1.0b";	// The software version
+$VERSION = "StarFleetDramaCampaign v1.1";	// The software version
 
 ###
 # Empires available to 'basicRace' priv level

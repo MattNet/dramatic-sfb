@@ -52,17 +52,22 @@ var orderSize = 0;
 
 // find the size of the orderArray without bid orders
 for( var i=0; i < Object.keys(orderArray).length; i++)
-  if( orderArray[ Object.keys(orderArray)[i] ][0] != 'bid' )
+  if(
+      orderArray[ Object.keys(orderArray)[i] ][0] != 'repair' &&
+      orderArray[ Object.keys(orderArray)[i] ][0] != 'build' &&
+      orderArray[ Object.keys(orderArray)[i] ][0] != 'convert' &&
+      orderArray[ Object.keys(orderArray)[i] ][0] != 'bid'
+    )
     orderSize++;
 
 for( i=0; i<Object.keys(unitList).length; i++)
   table.innerHTML = table.innerHTML + shipRow( i, Object.keys(unitList)[i] );
 
-for( var listKey=0; i < (Object.keys(unitList).length + orderSize ); i++, listKey++)
+for( var listKey=0, i=(Object.keys(orderArray).length-orderSize); i < (Object.keys(orderArray).length + numBlanks ); i++, listKey++)
   table.innerHTML = table.innerHTML + buildRow( i, listKey );
 
-for( ; i < ( Object.keys(unitList).length + orderSize + numBlanks ); i++, listKey++)
-  table.innerHTML = table.innerHTML + buildRow( i, listKey );
+//for( ; i < ( Object.keys(unitList).length + orderSize + numBlanks ); i++, listKey++)
+//  table.innerHTML = table.innerHTML + buildRow( i, listKey );
 
 </script>
 <p><?php echo $saveTag ?> &bull; Stockpiled <?php echo $empireObj['storedEP'] ?> EPs

@@ -76,7 +76,7 @@ function buildRow( rowIndex, listIndex )
   // if we are disabling some orders and this is one of those orders, skip building the row
   if( gameObj.turnSection != TURN_SECTION_EARLY && listIndex in orderArray )
     if( orderArray[listIndex][0] == 'build' ||
-//        orderArray[listIndex][0] == 'bid' ||
+//        orderArray[listIndex][0] == 'bid' || // this is being handled by ShipRow(), and is pre-skipped
         orderArray[listIndex][0] == 'convert' ||
         orderArray[listIndex][0] == 'repair'
     )
@@ -84,7 +84,12 @@ function buildRow( rowIndex, listIndex )
 
   // turn listIndex into an index into orderArray[] that skips bid orders
   for( var i=0; i < Object.keys(orderArray).length; i++)
-    if( i <= listIndex && orderArray[ Object.keys(orderArray)[i] ][0] == 'bid' )
+    if( i <= listIndex && (
+        orderArray[ Object.keys(orderArray)[i] ][0] == 'build' ||
+        orderArray[ Object.keys(orderArray)[i] ][0] == 'bid' ||
+        orderArray[ Object.keys(orderArray)[i] ][0] == 'convert' ||
+        orderArray[ Object.keys(orderArray)[i] ][0] == 'repair'
+      ) )
       listIndex++;
 
   output += "<tr><td>\n<select name='order"+rowIndex+"' autocomplete='off' onchange=''>\n<option value=''></option>\n";
@@ -104,7 +109,7 @@ function buildRow( rowIndex, listIndex )
 
   // Build orders
   output += "<option value='build'";
-  if( listIndex in orderArray && orderArray[listIndex][0] == 'build' )
+  if( gameObj.turnSection == TURN_SECTION_EARLY && listIndex in orderArray && orderArray[listIndex][0] == 'build' )
     output += " selected";
   if( gameObj.turnSection != TURN_SECTION_EARLY )
     output += " disabled";
@@ -246,7 +251,7 @@ function shipRow( rowIndex, listIndex )
 
 // Put aura around image to denote when it is a previously-given order
   output += "<a href='#' title='"+unitList[listIndex][1]+"'><img src='"+shipGraphic;
-  output += "' alt='"+String(unitList[listIndex][1]).toHtmlEntities()+"' class='scenario'></a>"+unitList[listIndex][1];
+  output += "' alt='"+String(unitList[listIndex][1]).toHtmlEntities()+"' class='scenario' style='float:left'></a>"+unitList[listIndex][1];
   output += "\n</td><td class='scenario_table_units' colspan=4>\n";
 
   for( var i=0; i<Object.keys(encounterList).length; i++)

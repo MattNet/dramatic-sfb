@@ -46,7 +46,6 @@ function submitImage( element, orderIndex, shipIndex, encounterIndex )
 
   element.appendChild(newNode);
 
-
   // search for a parent with the 'submit' method
   while( typeof element.submit != 'function')
     element = element.parentElement;
@@ -73,24 +72,28 @@ function buildRow( rowIndex, listIndex )
   var output = "";
   var id = "";
 
-  // if we are disabling some orders and this is one of those orders, skip building the row
-  if( gameObj.turnSection != TURN_SECTION_EARLY && listIndex in orderArray )
-    if( orderArray[listIndex][0] == 'build' ||
-//        orderArray[listIndex][0] == 'bid' || // this is being handled by ShipRow(), and is pre-skipped
-        orderArray[listIndex][0] == 'convert' ||
-        orderArray[listIndex][0] == 'repair'
-    )
-      return output;
-
-  // turn listIndex into an index into orderArray[] that skips bid orders
-  for( var i=0; i < Object.keys(orderArray).length; i++)
-    if( i <= listIndex && (
-        orderArray[ Object.keys(orderArray)[i] ][0] == 'build' ||
-        orderArray[ Object.keys(orderArray)[i] ][0] == 'bid' ||
-        orderArray[ Object.keys(orderArray)[i] ][0] == 'convert' ||
-        orderArray[ Object.keys(orderArray)[i] ][0] == 'repair'
-      ) )
-      listIndex++;
+  // turn listIndex into an index into orderArray[] that skips certain orders
+  if( listIndex in orderArray )
+    if( gameObj.turnSection != TURN_SECTION_EARLY )
+    {
+    // if we are disabling some orders and this is one of those orders, skip building the row
+        for( var i=0; i < Object.keys(orderArray).length; i++)
+          if( i <= listIndex && (
+              orderArray[ Object.keys(orderArray)[i] ][0] == 'build' ||
+              orderArray[ Object.keys(orderArray)[i] ][0] == 'bid' ||
+              orderArray[ Object.keys(orderArray)[i] ][0] == 'convert' ||
+              orderArray[ Object.keys(orderArray)[i] ][0] == 'repair'
+            ) )
+            listIndex++;
+    }
+    else // this is done in the early half of the turn
+    {
+      for( var i=0; i < Object.keys(orderArray).length; i++)
+        if( i <= listIndex &&
+            orderArray[ Object.keys(orderArray)[i] ][0] == 'bid'
+          )
+          listIndex++;
+    }
 
   output += "<tr><td>\n<select name='order"+rowIndex+"' autocomplete='off' onchange=''>\n<option value=''></option>\n";
 

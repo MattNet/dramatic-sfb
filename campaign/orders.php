@@ -66,10 +66,15 @@ if( $raceID <= 0 )
     $errors .= "Could not get order file for empire #$raceID.";
     redirect( "$GOTO_ON_BACK".$stdURLSuffix."&".$ERROR_GET_STRING.urlencode($errors) );
   }
+
 // bounce if the empire doesn't belong in this game
 if( ! sanitizeRace( $empireObj, $gameID ) )
 {
-  $errors .= "Empire '{$empireObj->modify('textName')}' does not belong in this game.";
+  if( method_exists($empireObj, 'modify') )
+    $name = $empireObj->modify('textName');
+  else
+    $name = $empireObj['textName'];
+  $errors .= "Empire '$name' does not belong in this game.";
   redirect( "$GOTO_ON_ACCOUNT?".$authObj->getSessionRequest()."&".$ERROR_GET_STRING.urlencode($errors) );
 }
 
@@ -318,10 +323,10 @@ function buildRow( $rowIndex, $orderArray = array(), $jsonData = array() )
       $output .= "Build a ".$designList[$design][0]." named \"$text\"";
       break;
     case 'convert':
-      $output .= "Convert / Refit ".$unitList[$ship]." into a ".$designList[$design][0];
+      $output .= "Convert / Refit ".$unitList[$ship][1]." into a ".$designList[$design][0];
       break;
     case 'repair':
-      $output .= "Hold ".$unitList[$ship]." out for repairs";
+      $output .= "Hold ".$unitList[$ship][1]." out for repairs";
       break;
     }
     $output .= "</td></tr>\n";

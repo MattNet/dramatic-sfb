@@ -37,7 +37,7 @@ var noIssueRedirect = function ( obj )
 <table>
 <tr><th colspan=2>The <?php echo $gameObj['gameName']; ?> Game</th></tr>
 <tr style="height:1%;"><td>Moderator:</td><td><?php echo $gameModTag; ?></td>
-<td rowspan=15 valign='top' class='empire_list'><?php echo $empList; ?></td></tr>
+<td rowspan=16 valign='top' class='empire_list'><?php echo $empList; ?></td></tr>
 <tr style="height:1%;"><td>Game Status:</td><td><?php echo $gameObj['status']; ?></td></tr>
 <tr style="height:1%;"><td>Latest Turn:</td><td><?php echo $gameTurn; ?></td></tr>
 <tr style="height:1%;"><td>Turns per Year:</td><td><?php echo $gameObj['campaignSpeed']; ?></td></tr>
@@ -51,6 +51,7 @@ var noIssueRedirect = function ( obj )
 <tr style="height:1%;"><th colspan=2><?php echo $empireObj->modify('textName')." ({$empireObj->modify('race')})"; ?></th></tr>
 <tr style="height:1%;"><td>Econ Pt Income:</td><td><?php echo $empireObj->modify('income'); ?></td></tr>
 <tr style="height:1%;"><td>Econ Pt Stockpile:</td><td><?php echo $empireObj->modify('storedEP'); ?></td></tr>
+<tr style="height:1%;"><td>Empire Score:</td><td><?php echo $empireScore; ?></td></tr>
 <?php } ?>
 <?php if( $raceID == 0 ) { ?>
 <tr style="height:1%;"><td>Rename Game:</td><td><?php echo $renameTag; ?></td></tr>
@@ -64,7 +65,7 @@ var noIssueRedirect = function ( obj )
 <tr><td>&nbsp;</td></tr>
 <tr style="height:1%;"><td><?php echo $advanceOrdersTag; ?></td><td><?php echo $advanceEncountersTag; ?></td></tr>
 <tr><td>&nbsp;</td></tr>
-<tr><td><?php echo $utilityCSVTag; ?></td></tr>
+<tr><td><?php echo $utilityCSVTag; ?></td><td><?php echo $remakeFilesTag; ?></td></tr>
 <tr><td>&nbsp;</td></tr>
 <tr><td colspan=2 rowspan=3><?php echo $closeTag; ?>&nbsp;<?php echo $startTag; ?><?php echo $isInterestedTag ?></td></tr>
 </table></form>

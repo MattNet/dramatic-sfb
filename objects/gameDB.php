@@ -16,6 +16,8 @@
 # - Updates an existing object in the database
 # getAllGameTurn( $game, $turn, $table, &$values )
 # - Reads all existing objects from the given table that are in the given game and the given turn
+# calcEmpireScore( $game, $turn )
+# - Calculates the score of the given empire on the given turn
 # genquery( $query )
 # - A very general query function. Should not be used
 ###
@@ -100,6 +102,63 @@ class gameDB extends DataBase
       }
     }
     return true;
+  }
+
+  ###
+  # Calculates the score of the given empire on the given turn
+  ###
+  # Args are:
+  # - (int) The game to look for
+  # - (int) The current turn to use
+  # - (int) The empire ID to use
+  # Returns:
+  # - (int) The number calculated as the empire's score
+  # - Errors put at $this->error_string
+  ###
+  public function calcEmpireScore( $game, $turn, $empire )
+  {
+    $output = 0;
+
+    $query = "SELECT borders, income, storedEP FROM ".Empire::table." WHERE game=$game AND turn=$turn AND id=$empire";
+    if( $result = $this->dblink->query( $query ) )
+    {
+      $row = $result->fetch_assoc();
+      $borders = explode( ",", $row['borders'] );
+    // perform the score calculation here
+      $output += $row['storedEP']; // Stockpile is worth 1 pt per EP
+      $output += $row['income'] * 5; // Income is worth 5 pts per EP
+
+      while( ! empty($borders) )
+      {
+        $value = array_shift( $borders ); // throw away the first of each value pair
+        $value = array_shift( $borders );
+        $output += $value * 150; // Borders are worth 150 pts per border
+      }
+    // end calculation
+      $result->free();
+    } else {
+      $this->error_string .= "\n<br>Error in gameDB->calcEmpireScore(Game $game, Turn $turn, Empire $empire)";
+      $this->error_string .= ", table ".Empire::table.": ".$this->dblink->error;
+      return false;
+    }
+
+    $subquery = "SELECT design FROM ".Ship::table." WHERE empire=$empire AND turn=$turn AND game=$game";
+    $query = "SELECT SUM(BPV) FROM ".ShipDesign::table." inner join ($subquery) ships on ".ShipDesign::table.".id=ships.design";
+    if( $result = $this->dblink->query( $query ) )
+    {
+      $row = $result->fetch_assoc();
+    // perform more score calculation here
+      $output += $row['SUM(BPV)']; // Ship BPVs are worth 1 pt per BPV
+    // end calculation
+      $result->free();
+    } else {
+      $this->error_string .= "\n<br>Error in gameDB->calcEmpireScore(Game $game, Turn $turn, Empire $empire)";
+      $this->error_string .= ", table ".Ship::table.": ".$this->dblink->error;
+      return false;
+    }
+
+    unset($borders);
+    return $output;
   }
 
   ###

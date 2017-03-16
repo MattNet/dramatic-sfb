@@ -18,11 +18,13 @@ $GOTO_ON_INTEREST = $_SERVER['PHP_SELF'];	// page to serve if we click on the "I
 $RENAME_GAME_TEXT = "renameGame";	// name input for renaming a game
 $TEMPLATE_FILE = "./game.template";	// Template file to load
 $UTILITY_CSV = dirname(__FILE__) . "/../utils/overallStatus.php";	// utility to generate an Overall-Status .CSV file
+$UTILITY_REMAKE = dirname(__FILE__) . "/process_turn.remake_files.php";	// utility to recreate the data files
 
 include_once( dirname(__FILE__) . "/../Login/Login_common.php" );
 include_once( dirname(__FILE__) . "/../campaign_config.php" );
 include_once( dirname(__FILE__) . "/../objects/gameDB.php");
 include_once( dirname(__FILE__) . "/../objects/obj_list.php");
+require_once( dirname(__FILE__) . "/../objects/ship.php" );
 
 // This code block allows the $_REQUEST variable to catch up to the rest of the script
 // This fixes a bug where the $_REQUEST variable is not set until it was subject to print_r()
@@ -254,16 +256,28 @@ if( ! empty($_REQUEST['utilityCSV']) && $raceID == 0 && $gameObj['status'] == Ga
   exec( $execString, $output, $return );
     $logTag = implode( "\n<br>", $output );
 }
+// Use the utility to remake the data files
+if( ! empty($_REQUEST['utilityRemake']) && $raceID == 0 && $gameObj['status'] == Game::STATUS_PROGRESSING && 
+    $authObj->checkPrivs( $userObj, "advance" && $authObj->checkPrivs( $userObj, "advanceAll" ) )
+  )
+{
+  $execString = "$UTILITY_REMAKE $gameID";
+
+  exec( $execString, $output, $return );
+    $logTag = implode( "\n<br>", $output );
+}
+
 
 // Set up the variables used inside the template
 
-$advanceOrdersTag = "<input type='submit' name='advance' value='$ADVANCE_ORDERS_TEXT'>";
-$checkOrdersTag = "<input type='submit' name='advance' value='$CHECK_ORDERS_TEXT'>";
 $advanceEncountersTag = "<input type='submit' name='advance' value='$ADVANCE_ENCOUNTERS_TEXT'>";
-$checkEncountersTag = "<input type='submit' name='advance' value='$CHECK_ENCOUNTERS_TEXT'>";
-$canAdvanceTag = "";
+$advanceOrdersTag = "<input type='submit' name='advance' value='$ADVANCE_ORDERS_TEXT'>";
 $backUpTag = "<a href='$GOTO_ON_BACK?".$authObj->getSessionRequest()."'>Account Menu</a>";
+$canAdvanceTag = "";
+$checkOrdersTag = "<input type='submit' name='advance' value='$CHECK_ORDERS_TEXT'>";
+$checkEncountersTag = "<input type='submit' name='advance' value='$CHECK_ENCOUNTERS_TEXT'>";
 $closeTag = "<input type='submit' name='close' value='Close Game' onclick='return deleteConfirm();'>";
+$empireScore = 0;
 $formTag = "<form action='".$_SERVER['PHP_SELF']."' method='post' target='_SELF' class=''>\n";
 $formTag .= $authObj->getSessionTag();
 $formTag .= "<input type='hidden' name='game' value='$gameID'>\n";
@@ -275,6 +289,7 @@ $logOutTag = $tag_logout;
 $ordersTag = "";
 $startTag = " &bull; <input type='submit' name='start' value='Begin Game'>";
 $utilityCSVTag = "<input type='submit' name='utilityCSV' value='Use CSV Utility'>";
+$remakeFilesTag = "<input type='submit' name='utilityRemake' value='Recreate the Data Files'>";
 
 $allowConjTag = "No Conjectural Units Allowed";
 $empAdvanceState = "No orders to process";
@@ -361,6 +376,8 @@ if( $raceID != 0 && ! empty($empireObj) )
   }
 
   $empList = populateScenarioList( $gameTurn, $gameID, $raceID );
+
+  $empireScore = $database->calcEmpireScore( $gameID, $gameTurn, $raceID );
 }
 else if( $raceID == 0 )
 {
@@ -458,6 +475,7 @@ if( $raceID != 0 ||
   $advanceOrdersTag = "";
   $advanceEncountersTag = "";
   $utilityCSVTag = "&nbsp;";
+  $remakeFilesTag = "&nbsp;";
 }
 if( $raceID != 0 ||
     ! ( $authObj->checkPrivs( $userObj, "close" ) || $authObj->checkPrivs( $userObj, "closeAll" ) ) ||

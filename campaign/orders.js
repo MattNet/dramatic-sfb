@@ -68,7 +68,7 @@ function buildRow( rowIndex, listIndex )
   // orderArray is an array of orders that is defined outside the function.
   // format is orderArray[index] = [ "type", "ship ID", "encounter ID", "design ID" ]
 
-  var TURN_SECTION_EARLY = 0;
+//  var TURN_SECTION_EARLY = 0;
   var output = "";
   var id = "";
 
@@ -88,27 +88,29 @@ function buildRow( rowIndex, listIndex )
     }
     else // this is done in the early half of the turn
     {
-      for( var i=0; i < Object.keys(orderArray).length; i++)
-        if( i <= listIndex &&
-            orderArray[ Object.keys(orderArray)[i] ][0] == 'bid'
-          )
-          listIndex++;
+      if( TURN_ON_DROP_DOWN_BIDS < 1 ) // if we turn off drop-down bid interface, don't show bid orders in drop-downs
+        for( var i=0; i < Object.keys(orderArray).length; i++)
+          if( i <= listIndex &&
+              orderArray[ Object.keys(orderArray)[i] ][0] == 'bid'
+            )
+            listIndex++;
     }
 
   output += "<tr><td>\n<select name='order"+rowIndex+"' autocomplete='off' onchange=''>\n<option value=''></option>\n";
 
-/*****
-// v1.0 bid orders
-
+// drop-down bid orders
+// graphical bid orders are written with shipRow()
   // Bid orders
-  output += "<option value='bid'";
-  if( rowIndex in orderArray && orderArray[listIndex][0] == 'bid' )
-    output += " selected";
-  if( gameObj.turnSection != TURN_SECTION_EARLY )
-    output += " disabled";
-  output += ">Bid Ship to Scenario</option>\n";
-// v2.0 bid orders are written with shipRow()
-*****/
+  if( TURN_ON_DROP_DOWN_BIDS > 0 ) // if we turn on drop-down bid interface, show bid orders in drop-downs
+  {
+    output += "<option value='bid'";
+    if( listIndex in orderArray && orderArray[listIndex][0] == 'bid' )
+      output += " selected";
+    if( gameObj.turnSection != TURN_SECTION_EARLY )
+      output += " disabled";
+    output += ">Bid Ship to Scenario</option>\n";
+  }
+// end drop-down bid orders
 
   // Build orders
   output += "<option value='build'";

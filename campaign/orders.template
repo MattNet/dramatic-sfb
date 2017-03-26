@@ -23,7 +23,7 @@ function ElementFind( search_item, obj )
   return false;
 }
 </script>
-<script src="./orders.js" type="text/javascript"></script>
+<script src="./orders.js?v=1" type="text/javascript"></script>
 <?php echo $javascriptLookup ?>
 <title>Order Selection</title>
 </head><body>
@@ -47,6 +47,8 @@ function ElementFind( search_item, obj )
 <?php echo $jsRows ?>
 
 var TURN_SECTION_EARLY = <?php echo Game::TURN_SECTION_EARLY ?>;
+var TURN_ON_DROP_DOWN_BIDS = 1; // allow the drop-down interface to show and make bid orders
+var TURN_ON_GRAPHIC_BIDS = 0; // allow the graphical interface to show and make bid orders
 var numBlanks = <?php echo $BLANK_ORDERS_NUMBER ?>;
 var table = ElementFind( 'ordersTable' );
 var dropDownLength = 0;
@@ -76,17 +78,18 @@ if( gameObj.turnSection != TURN_SECTION_EARLY )
 else
 {
   orderStartNumber = Object.keys(unitList).length;
-  // find the size of the orderArray without bid orders
-  for( var i=0; i < Object.keys(orderArray).length; i++)
-    if(
-        orderArray[ Object.keys(orderArray)[i] ][0] == 'bid'
-      )
-      dropDownLength--;
+  if( TURN_ON_DROP_DOWN_BIDS < 1 ) // if we turn off drop-down bid interface, don't show bid orders in drop-downs
+    // find the size of the orderArray without bid orders
+    for( var i=0; i < Object.keys(orderArray).length; i++)
+      if(
+          orderArray[ Object.keys(orderArray)[i] ][0] == 'bid'
+        )
+        dropDownLength--;
 }
 
-
-for( i=0; i<Object.keys(unitList).length; i++)
-  table.innerHTML = table.innerHTML + shipRow( i, Object.keys(unitList)[i] );
+if( TURN_ON_GRAPHIC_BIDS > 0 ) // if we turn on graphical bid interface, show the graphics
+  for( i=0; i<Object.keys(unitList).length; i++)
+    table.innerHTML = table.innerHTML + shipRow( i, Object.keys(unitList)[i] );
 
 for( var listKey=0, i=orderStartNumber; i < dropDownLength; i++, listKey++)
   table.innerHTML = table.innerHTML + buildRow( i, listKey );

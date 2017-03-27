@@ -23,7 +23,7 @@ function ElementFind( search_item, obj )
   return false;
 }
 </script>
-<script src="./orders.js?v=1" type="text/javascript"></script>
+<script src="./orders.js?v=2" type="text/javascript"></script>
 <?php echo $javascriptLookup ?>
 <title>Order Selection</title>
 </head><body>
@@ -46,13 +46,32 @@ function ElementFind( search_item, obj )
 <script type="text/javascript">
 <?php echo $jsRows ?>
 
+//var screenSize = Math.sqrt(((window.screen.width^2)*(window.screen.height^2))/window.devicePixelRatio)/96;
+var screenSize = (window.screen.width*window.screen.height)/window.devicePixelRatio;
+	// 1000K is about a 10" display
+	// 700K is about a 9" display
+	// 500K is about a 7" display
+	// 230K is about a 5" display
+	// 150K is about a 4" display
+
 var TURN_SECTION_EARLY = <?php echo Game::TURN_SECTION_EARLY ?>;
-var TURN_ON_DROP_DOWN_BIDS = 1; // allow the drop-down interface to show and make bid orders
-var TURN_ON_GRAPHIC_BIDS = 0; // allow the graphical interface to show and make bid orders
+var TURN_ON_DROP_DOWN_BIDS = 0; // allow the drop-down interface to show and make bid orders
+var TURN_ON_GRAPHIC_BIDS = 1; // allow the graphical interface to show and make bid orders
 var numBlanks = <?php echo $BLANK_ORDERS_NUMBER ?>;
 var table = ElementFind( 'ordersTable' );
 var dropDownLength = 0;
 var orderStartNumber = 0;
+
+if( screenSize < 500000 ) // Less than this value, we assume this is a mobile-browser
+{
+  TURN_ON_DROP_DOWN_BIDS = 1;
+  TURN_ON_GRAPHIC_BIDS = 0;
+}
+else
+{
+  TURN_ON_DROP_DOWN_BIDS = 0;
+  TURN_ON_GRAPHIC_BIDS = 1;
+}
 
 // find the number of drop-down-menu lines
 if( gameObj.turnSection != TURN_SECTION_EARLY )

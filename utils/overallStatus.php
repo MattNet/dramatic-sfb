@@ -36,13 +36,14 @@ $metrics = array(
              "total borders" =>	"TOTAL BORDERS",
              "income" =>	"EP INCOME",
              "storedEP" =>	"EP STOCKPILE",
+             "score" =>	"SCORE",
            ); // The titles of the metrics in the format of [empire object property name] => "title to display"
 		// Special property names of "BPV" and "total borders" reference special metrics
 $output = array(); // final output to the CSV file
 $empireObjects = array(); // Holds the empire objects, by turn, then by key (the lookup is $objLookup)
 $objLookup = array(); // a lookup array to go from empire_ID to $empireObjects key, indexed by turn then empire ID
 
-require_once( dirname(__FILE__) . "/../login/Login_config.php" );
+require_once( dirname(__FILE__) . "/../Login/Login_config.php" );
 require_once( dirname(__FILE__) . "/../objects/gameDB.php" );
 require_once( dirname(__FILE__) . "/../objects/game.php" );
 require_once( dirname(__FILE__) . "/../objects/empire.php" );
@@ -101,6 +102,7 @@ foreach( $range as $turnNum )
     {
       $outputKey = count($output[$turnNum]); // the key for the next new entry to $output for this turn
 
+      // if the empire does not exist or has no data, create an empty location for them.
       if( ! isset($objLookup[$turnNum][$empID]) || empty($empireObjects[$turnNum][$objLookup[$turnNum][$empID]]) )
       {
         $output[$turnNum][$outputKey] = "";
@@ -134,6 +136,10 @@ foreach( $range as $turnNum )
         foreach( $borders as $num )
           $output[$turnNum][$outputKey] += (int) $num;
         break;
+      case "score":
+        // create the aggregate score
+        $output[$turnNum][$outputKey] = (int) $database->calcEmpireScore( $gameID, $turnNum, $empID );
+        break;
       default:
         // handle some property from the Empire object
         $output[$turnNum][$outputKey] = $empireObjects[$turnNum][$objLookup[$turnNum][$empID]]->modify($property) ;
@@ -146,6 +152,8 @@ foreach( $range as $turnNum )
   }
   $output[$turnNum] = implode( ",", $output[$turnNum] );
 }
+
+print_r($output);exit();
 
 // put spacing into the heading arrays
 $headingCount = count($headings);

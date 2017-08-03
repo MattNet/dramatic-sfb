@@ -281,7 +281,7 @@ function listEmpireUnits( $unitList, $currentEmpireObj, $delineator=", " )
     $designator = trim( $designator ); // trim any extra whitespace
     // if the builder is not the same as the owner then note the builder
     if( $shipDesign['empire'] != $currentEmpireObj->modify('race') )
-      $designator = $shipDesign['empire']." $designator";
+      $designator = substr( $shipDesign['empire'], 0, 3 )." $designator";
     $designator = htmlspecialchars($designator); // escape $designator
     // add the given hull to the count in $hullCount
     if( ! isset($hullCount[$designator]) )

@@ -313,7 +313,7 @@ function buildRow( $rowIndex, $orderArray = array(), $jsonData = array() )
     {
     case 'bid':
       $output .= "<a href='#' title='{$unitList[$ship][1]}'><img src='";
-      $output .= "/campaign/images/".strtolower(substr( $empireObj['race'], 0,3)).strtolower($unitList[$ship][2]).".svg";
+      $output .= "/campaign/images/".strtolower($unitList[$ship][3]).strtolower($unitList[$ship][2]).".svg";
       $output .= "' alt='{$unitList[$ship][1]}' class='scenario'></a> bids to encounter ";
       $output .= "<a href='#' title='{$encounterList[$scenario][0]} #$scenario'><img src='../scenarios/";
       $output .= $encounterList[$scenario][2]."' alt='{$encounterList[$scenario][0]} #$scenario";

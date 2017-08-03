@@ -114,8 +114,20 @@ function dataFileOut( $gameObj, $empireObj, $playersUnits, $encounterObjs, $empi
   $objValues = $playersUnits->objByID;
   $tempArray = array(); // stuff the output here, then sort it before emitting it
   foreach( $objValues as $key=>$value )
-    if( $value->modify('empire') == $empireObj->modify('id') )
-      $tempArray["$key"] = ", '{$value->specs['designator']} &quot;{$value->modify('textName')}&quot;', '{$value->specs['baseHull']}' ],";
+  {
+    // get those ships built by and owned by this player
+    if( $value->modify('empire') == $empireObj->modify('id') && empty( $value->modify('captureEmpire') ) )
+    {
+      $tempArray[$key] = ", '{$value->specs['designator']} &quot;{$value->modify('textName')}&quot;', '";
+      $tempArray[$key] .= $value->specs['baseHull']."', '".strtolower(substr( $value->specs['empire'], 0, 3 ))."' ],";
+    }
+    // get those ships built by someone else and owned by this player (e.g captured)
+    else if( $value->modify('captureEmpire') == $empireObj->modify('id') )
+    {
+      $tempArray[$key] = ", '{$value->specs['designator']} &quot;{$value->modify('textName')}&quot;', '";
+      $tempArray[$key] .= $value->specs['baseHull']."', '".strtolower(substr( $value->specs['empire'], 0, 3 ))."' ],";
+    }
+  }
   natcasesort($tempArray); // sort the array
   foreach( $tempArray as $key=>&$value ) // put the keys into the string
     $value = "'$key': [ '$key'$value";
@@ -198,7 +210,8 @@ function getDesignList( $empire, $gameObj )
   if( $gameObj->modify('allowConjectural') == false )
     $query .= " AND switches NOT LIKE '%conjectural%'";
   // set up the displayed order of the units
-  $query .= " ORDER BY BPV DESC";
+  $query .= " ORDER BY baseHull ASC, designator ASC";
+//  $query .= " ORDER BY BPV ASC";
 
   $result = $database->genquery( $query, $list );
   if( $result === false )
@@ -240,7 +253,9 @@ function listEmpireUnits( $unitList, $currentEmpireObj, $delineator=", " )
   foreach( $unitList->objByID as $unitObj )
   {
     // skip if the unit does not belong to the empire being listed for
-    if( $unitObj->modify('empire') != $currentEmpireObj->modify('id') )
+    if( $unitObj->modify('empire') != $currentEmpireObj->modify('id') &&
+        $unitObj->modify('captureEmpire') != $currentEmpireObj->modify('id')
+      )
       continue;
 
     // assemble $listA for this unit

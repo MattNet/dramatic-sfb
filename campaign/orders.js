@@ -1,14 +1,3 @@
-/*
-Convert a string to HTML entities
-
-From http://stackoverflow.com/questions/18749591/encode-html-entities-in-javascript
-By ar34z
-*/
-String.prototype.toHtmlEntities = function() {
-    return this.replace(/./gm, function(s) {
-        return "&#" + s.charCodeAt(0) + ";";
-    });
-};
 
 /*
 Builds an order entry as hidden inputs and then submits the form
@@ -242,7 +231,7 @@ function shipRow( rowIndex, listIndex )
 
   var TURN_SECTION_EARLY = 0;
   var output = "<tr><td>";
-  var shipGraphic = "/campaign/images/"+empireObj.race.substr(0,3).toLowerCase()+unitList[listIndex][2].toLowerCase()+".svg";
+  var shipGraphic = "/campaign/images/"+unitList[listIndex][3].toLowerCase()+unitList[listIndex][2].toLowerCase()+".svg";
   var ourEncounterID = -1;
 
   // Skip building this if we can't give bid orders right now
@@ -283,4 +272,16 @@ function shipRow( rowIndex, listIndex )
   return output;
 
 }
+
+/*
+Convert a string to HTML entities
+
+From http://stackoverflow.com/questions/18749591/encode-html-entities-in-javascript
+By ar34z
+*/
+String.prototype.toHtmlEntities = function() {
+    return this.replace(/./gm, function(s) {
+        return "&#" + s.charCodeAt(0) + ";";
+    });
+};
 

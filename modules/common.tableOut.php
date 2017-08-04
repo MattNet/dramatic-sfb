@@ -253,8 +253,12 @@ function listEmpireUnits( $unitList, $currentEmpireObj, $delineator=", " )
   foreach( $unitList->objByID as $unitObj )
   {
     // skip if the unit does not belong to the empire being listed for
-    if( $unitObj->modify('empire') != $currentEmpireObj->modify('id') &&
-        $unitObj->modify('captureEmpire') != $currentEmpireObj->modify('id')
+    if( ( $unitObj->modify('empire') != $currentEmpireObj->modify('id') && 
+          empty($unitObj->modify('captureEmpire')) 
+        ) ||
+        ( ! empty($unitObj->modify('captureEmpire')) && 
+          $unitObj->modify('captureEmpire') != $currentEmpireObj->modify('id')
+        )
       )
       continue;
 

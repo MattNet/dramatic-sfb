@@ -351,6 +351,8 @@ function bidScenarioText( $encObjList, $empireID, $scenarioIterator, $empireObjL
     $isDefender = false;
     $opponentID = 0;
     $scenarioIndex = $encObj->modify('scenario');
+    $shipCountFriendly = 0;
+    $shipCountHostile = 0;
     $shipBPVFriendly = 0;
     $shipBPVHostile = 0;
     $shipListFriendly = "";
@@ -395,7 +397,6 @@ function bidScenarioText( $encObjList, $empireID, $scenarioIterator, $empireObjL
           $shipDesign = $unitList->objByID[$shipBids['ship']]->modify('specs');
           $designator = $shipDesign[ 'designator' ]." \"".$unitList->objByID[$shipBids['ship']]->modify('textName')."\"";
           $designator = addslashes($designator);
-//print_r($unitList->objByID[$shipBids['ship']]->specs['BPV']);exit;
           if( $ownerEmpire == $encObj->modify('playerA') )
           {
             // if the builder is not the same as the owner then note the builder
@@ -407,6 +408,7 @@ function bidScenarioText( $encObjList, $empireID, $scenarioIterator, $empireObjL
 
             $shipListFriendly .= "$designator, ";
             $shipBPVFriendly += $unitList->objByID[$shipBids['ship']]->specs['BPV'];
+            $shipCountFriendly++;
           }
           if( $ownerEmpire == $encObj->modify('playerB') )
           {
@@ -419,6 +421,7 @@ function bidScenarioText( $encObjList, $empireID, $scenarioIterator, $empireObjL
 
             $shipListHostile .= "$designator, ";
             $shipBPVHostile += $unitList->objByID[$shipBids['ship']]->specs['BPV'];
+            $shipCountHostile++;
           }
       }
     }
@@ -457,7 +460,8 @@ function bidScenarioText( $encObjList, $empireID, $scenarioIterator, $empireObjL
     $javascript .= sprintf( $SCENARIOS[ $scenarioIndex ][1],
                      $empireAName, $empireBName,
                      $shipListFriendly, $shipListHostile,
-                     $shipBPVFriendly, $shipBPVHostile
+                     $shipBPVFriendly, $shipBPVHostile,
+                     $shipCountFriendly, $shipCountHostile
                    );
     $javascript .= "\";\n";
     $scenarioIterator += 1;
@@ -533,7 +537,7 @@ function encounterScenarioText( $encObjList, $empireID, $scenarioIterator, $empi
       // the bulk of the scenario text
       $javascript .= sprintf( $SCENARIOS[ $scenarioIndex ][1],
                        $empireAName, $empireBName,
-                       "The defender's ships that are bid", "The attacker's ships that are bid", 0, 0
+                       "The defender's ships that are bid", "The attacker's ships that are bid", 0, 0, 0, 0
                      );
       $javascript .= "\";\n";
       $scenarioIterator += 1;

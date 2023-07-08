@@ -1,13 +1,43 @@
+#!/usr/bin/php -q
+<?php
+###
+# Grabs the list of units buildable at the given year for the given empire
+###
 
-EMPIRE="Seltorian";
-YEAR="172";
-OUTPUT_FILE=`pwd`"/output.csv";
+if( ! isset($argv[3]) )
+{
+  echo "\nGrabs the high/low/and average economy of a game.\n\n";
+  echo "Called by:\n";
+  echo "  ".$argv[0]." EMPIRE_TYPE YEAR FILE\n\n";
+  exit(1);
+}
 
-HEADERS="empire,designator,BPV,sizeClass,commandRating,yearInService,obsolete,baseHull,carrier";
-QUOTED_HEADERS="'empire','designator','BPV','sizeClass','commandRating','yearInService','obsolete','baseHull','carrier'";
-NO_OUTFILE="SELECT ${QUOTED_HEADERS} UNION SELECT ${HEADERS} FROM sfbdrama_shipdesign WHERE empire='${EMPIRE}' AND yearInService<='${YEAR}' AND (obsolete>='${YEAR}' OR obsolete=0)";
-SQL_LINE="${NO_OUTFILE} INTO OUTFILE '${OUTPUT_FILE}' FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n'";
+require_once( dirname(__FILE__) . "/../objects/gameDB.php" );
+$database = gameDB::giveme();
 
+$year = intval($argv[2]);
+$empire = $database->wash($argv[1]);
+$file = $argv[3];
 
-echo $NO_OUTFILE;
+$columns = "designator,BPV,sizeClass,commandRating,yearInService,obsolete,baseHull,carrier";
+$query = "SELECT $columns FROM sfbdrama_shipdesign WHERE empire='$empire' AND yearInService<='$year' AND (obsolete>='$year' OR obsolete=0)";
 
+  $result = $database->genquery( $query, $fleet );
+  if( ! $result )
+  {
+    if( $SHOW_DB_ERRORS )
+      echo "Could not get unit list: ".$database->error_string."\n";
+    else
+      echo "Could not get unit list.\n";
+    exit(1);
+  }
+
+$output = $columns."\n";
+foreach( $fleet as $fleetData )
+  $output .= implode( ",", $fleetData )."\n";
+
+file_put_contents( $file, $output );
+
+echo "\nEmpire $empire, year Y$year, ".count($fleet)." units\n\n";
+
+?>

@@ -34,6 +34,8 @@ $allowConjecturalTag = "<select name='allowConjectural'><option value='0' select
 $allowPublicUnitsTag = "<select name='allowPublicUnits'><option value='0'>No</option><option value='1' selected>Yes</option></select>";
 $allowPublicScenTag = "<select name='allowPublicScenarios'><option value='0'>No</option><option value='1' selected>Yes</option></select>";
 $sizeClassTag = "<input type='text' name='sizeclass' value='1' size=1 class=''>";
+$nonIncomeTurnTag = "";
+$errorTag = "";
 
 // Input Bids modules
 if( count( $MODULE_BIDS_IN ) == 1 )
@@ -104,35 +106,37 @@ else
   $modEncOutTag .= "</select>";
 }
 
-$errorTag = $errors;
-
 if( ! empty($_REQUEST['createGame']) )
 {
-  if( ! isset($_REQUEST['name']) || ! isset($_REQUEST['startyear']) ||
-      ! isset($_REQUEST['campaignspeed']) || ! isset($_REQUEST['overwhelmingForce']) ||
-      ! isset($_REQUEST['allowConjectural']) || ! isset($_REQUEST['sizeclass']) ||
-      ! isset($_REQUEST['modbidin']) || ! isset($_REQUEST['modbidout']) || 
-      ! isset($_REQUEST['modencin']) || ! isset($_REQUEST['modencout']) ||
-      ! isset($_REQUEST['allowPublicUnits']) || ! isset($_REQUEST['allowPublicScenarios'])
-    )
+  do // make a DO loop so we can break out on failure
   {
-    $errors .= "<br>Some configuration items were not set properly.";
-    continue; // skip creating a new game if we don't have all the inputs
+    if( ! isset($_REQUEST['name']) || ! isset($_REQUEST['startyear']) ||
+        ! isset($_REQUEST['campaignspeed']) || ! isset($_REQUEST['overwhelmingForce']) ||
+        ! isset($_REQUEST['allowConjectural']) || ! isset($_REQUEST['sizeclass']) ||
+        ! isset($_REQUEST['modbidin']) || ! isset($_REQUEST['modbidout']) || 
+        ! isset($_REQUEST['modencin']) || ! isset($_REQUEST['modencout']) ||
+        ! isset($_REQUEST['allowPublicUnits']) || ! isset($_REQUEST['allowPublicScenarios'])
+      )
+    {
+      $errors .= "<br>Some configuration items were not set properly.";
+      break; // skip creating a new game if we don't have all the inputs
+    }
+
+    $game = new Game( array(
+            'currentTurn'=> 0, 'borderSize'=> 0, 'campaignSpeed'=> intval($_REQUEST['campaignspeed']),
+            'gameName'=> $_REQUEST['name'], 'gameStart' => intval($_REQUEST['startyear']),
+            'moderator'=> $userObj->modify('id'), 'moduleEncountersIn'=> $_REQUEST['modencin'],
+            'moduleEncountersOut' => $_REQUEST['modencout'], 'moduleBidsIn' => $_REQUEST['modbidin'],
+            'moduleBidsOut'=> $_REQUEST['modbidout'], 'randomSeeds'=> '', 'status'=>Game::STATUS_OPEN,
+            'useExperience'=> 0, 'useUnitSwapping'=> 0, 'overwhelmingForce'=>intval($_REQUEST['overwhelmingForce']),
+            'allowConjectural'=>intval($_REQUEST['allowConjectural']), 'largestSizeClass'=>intval($_REQUEST['sizeclass']),
+            'allowPublicUnits'=>intval($_REQUEST['allowPublicUnits']),'allowPublicScenarios'=>intval($_REQUEST['allowPublicScenarios'])
+          ) );
+    $game->create();
+
+    redirect( "$GOTO_ON_BACK?".$authObj->getSessionRequest() );
   }
-
-  $game = new Game( array(
-          'currentTurn'=> 0, 'borderSize'=> 0, 'campaignSpeed'=> intval($_REQUEST['campaignspeed']),
-          'gameName'=> $_REQUEST['name'], 'gameStart' => intval($_REQUEST['startyear']),
-          'moderator'=> $userObj->modify('id'), 'moduleEncountersIn'=> $_REQUEST['modencin'],
-          'moduleEncountersOut' => $_REQUEST['modencout'], 'moduleBidsIn' => $_REQUEST['modbidin'],
-          'moduleBidsOut'=> $_REQUEST['modbidout'], 'randomSeeds'=> '', 'status'=>Game::STATUS_OPEN,
-          'useExperience'=> false, 'useUnitSwapping'=> false, 'overwhelmingForce'=>intval($_REQUEST['overwhelmingForce']),
-          'allowConjectural'=>intval($_REQUEST['allowConjectural']), 'largestSizeClass'=>intval($_REQUEST['sizeclass']),
-          'allowPublicUnits'=>intval($_REQUEST['allowPublicUnits']),'allowPublicScenarios'=>intval($_REQUEST['allowPublicScenarios'])
-        ) );
-  $game->create();
-
-  redirect( "$GOTO_ON_BACK?".$authObj->getSessionRequest() );
+  while(false);
 }
 
 $errorTag = $errors;

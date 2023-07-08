@@ -37,10 +37,7 @@ function encounterOutVertTable( $feed )
     $currentEmpireObj = $empList->objByID[$iterationID];
     $currentPlayer = loadOneObject( "user", $currentEmpireObj->modify('player') );
     if( $currentPlayer === false ) // if we could not load the player object
-    {
-//print_r($empList->objByID);print_r($currentEmpireObj->modify('player'));exit();
       continue;
-    }
 
     $javascript = "<script type='text/javascript'>\n";
     $javascript .= $COMMON_JAVASCRIPT;

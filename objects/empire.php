@@ -5,7 +5,7 @@ class Empire extends BaseObject
 {
   const table	= "sfbdrama_empire";
 
-  protected $advance	= false; // does this empire have it's orders/combat-results in, and is ready to advance the turn another step?
+  protected $advance	= 0; // does this empire have it's orders/combat-results in, and is ready to advance the turn another step?
   protected $ai		= ""; // notes from the AI to itself
   protected $borders	= ""; // comma delim'd list of borders shared with other empires. Format is: empire ID, amt, empire ID, ...
   protected $game	= 0; // id of the game object
@@ -26,9 +26,11 @@ class Empire extends BaseObject
   # Returns:
   # - None
   ###
-  function __construct( $id = 0 )
+  function __construct( $id = 0, $reference = false )
   {
-    parent::__construct( $id );
+    $reference = (bool) $reference; // this is a readonly flag
+
+    parent::__construct( $id, $reference );
     $intProps = array(
       'game', 'income', 'player', 'storedEP', 'turn'
     );
@@ -146,6 +148,56 @@ class Empire extends BaseObject
     $this->borders = implode( ",", array_values($borderList) );
   }
 
+  ###
+  # Modifies or retrieves a property of this object.
+  # This overloaded function sanity-checks input values
+  ###
+  # Args are:
+  # - (string) The property to adjust
+  # - (string) [optional] The value to use. Set to null if no value is to be set
+  # Returns:
+  # - (string) the adjusted property
+  ###
+  function modify( $property, $value=null )
+  {
+    if( $value != null )
+      switch($property)
+      {
+      case 'advance':
+        $this->advance = (int) $value;
+        break;
+      case 'game':
+        $this->game = (int) $value;
+        break;
+      case 'income':
+        $this->income = (int) $value;
+        break;
+      case 'player':
+        $this->player = (int) $value;
+        break;
+      case 'storedEP':
+        $this->storedEP = (int) $value;
+        break;
+      case 'turn':
+        $this->turn = (int) $value;
+        break;
+      }
+    return parent::modify( $property, $value );
+  }
+
+  ###
+  # Updates itself in the database from memory
+  ###
+  # Args are:
+  # - None
+  # Returns:
+  # - (boolean) true for success, false for failure
+  ###
+  function update()
+  {
+    $output = parent::update();
+    return $output;
+  }
   ###
   # Returns those properties which need to be stored in the database
   ###

@@ -7,6 +7,8 @@
 # - (string) a description of the empire's economy
 ###
 
+$DEBUG = false; // show debug information with the output
+
 if( ! isset($argv[2]) )
 {
   echo "\nAttempts to reconstruct the economy of the last couple of turns for an empire.\n\n";
@@ -14,7 +16,6 @@ if( ! isset($argv[2]) )
   echo "  ".$argv[0]." GAME_ID EMPIRE_RACE_NAME [EMPIRE_ID]\n\n";
   exit(1);
 }
-
 
 require_once( dirname(__FILE__) . "/../Login/Login_config.php" );
 require_once( dirname(__FILE__) . "/../scenarios/scenarios.php" );
@@ -28,8 +29,18 @@ require_once( dirname(__FILE__) . "/../objects/shipdesign.php" );
 $gameID = intval($argv[1]);
 $raceName = $argv[2];
 $empID = 0;
+// fill in $empID if given
 if( isset($argv[3]) && ! empty($argv[3]) )
   $empID = intval($argv[3]);
+// if the second argument is numeric and there was no third argument, then assume the second was the empire ID
+else if( is_numeric($argv[2]) )
+{
+  $empID = intval($argv[2]);
+  $raceName = "";
+}
+
+if( $DEBUG )
+  echo "Empire ID: ".$empID."\n";
 
 $database = DataBase::giveme();
 $currentTurn = 0; // turn number of current turn
@@ -45,29 +56,48 @@ $output = "";
 $mathString = ""; // presents the math of the economy as a simple equation
 
 // get the turn info
-$query = "select MAX(turn) as turn,id from ".Empire::table." WHERE game=$gameID and race='$raceName'"; // this gets data from first entry
+if( ! empty($raceName) ) 
+  $raceName = $database->wash($raceName);
+$query = "select MAX(turn) as turn,id from ".Empire::table." WHERE game=$gameID and "; // this gets data from first entry
 if( $empID )
-  $query .= "and id=$empID";
+  $query .= "id=$empID";
+else
+  $query .= "race='$raceName'";
 $dbData = dbQuery( $query );
 $currentTurn = $dbData['turn'];
 $lastTurn = ($currentTurn-1);
 $empID = $dbData['id']; // set this in case we didn't have it
+if( $DEBUG )
+{
+  echo "Turn: ".$currentTurn."\n";
+  echo "Empire ID: ".$empID."\n";
+}
+
 
 // get the most recent EP stockpile
 $query = "select storedEP from ".Empire::table." WHERE game=$gameID and id=$empID and turn=$currentTurn";
 $dbData = dbQuery( $query );
 $currentStoredEP = $dbData['storedEP'];
+if( $DEBUG )
+  echo "Stored EP: ".$currentStoredEP."\n";
 
 // get previous empire info
 $query = "select income,storedEP from ".Empire::table." WHERE game=$gameID and id=$empID and turn=$lastTurn";
 $dbData = dbQuery( $query );
 $currentIncome = $dbData['income']; // this is because the previous income is modified by rewards before being applied
 $lastStoredEP = intval($dbData['storedEP']);
+if( $DEBUG )
+{
+  echo "Income: ".$currentIncome."\n";
+  echo "Last Stored EP: ".$lastStoredEP."\n";
+}
 
 // get the previous income
 $query = "select income from ".Empire::table." WHERE game=$gameID and id=$empID and turn=".($lastTurn-1);
 $dbData = dbQuery( $query );
 $lastIncome = $dbData['income']; // this is because the previous income is modified by rewards before being applied
+if( $DEBUG )
+  echo "Previous Income: ".$lastIncome."\n";
 
 // assemble $builtShips
 $orders = new Orders( array( 'game'=>$gameID, 'empire'=>$empID, 'turn'=>$lastTurn, ) );
@@ -93,8 +123,11 @@ foreach( $orderString['conversions'] as $shipData )
   $dbData = dbQuery( $query );
   $newCost = $dbData['bpv'];
   $refitShips[] = array( $dbData['empire']." ".$dbData['designator'], abs($newCost-$oldCost) );
-//var_dump($oldCost);
-//var_dump($newCost);
+  if( $DEBUG )
+  {
+    echo "Previous Cost: ".$oldCost."\n";
+    echo "New Cost: ".$newCost."\n";
+  }
 }
 
 // assemble $encounters
@@ -164,7 +197,7 @@ foreach( $dbData as $data )
     }
   }
 
-//$encounters = array(); // format is 0=>array("name+num","won/lost","EP change", "income change")
+  // format is 0=>array("name+num","won/lost","EP change", "income change")
   $encounters[] = array( $name, $winStatus, $ep, $income );
 }
 

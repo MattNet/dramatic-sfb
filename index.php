@@ -76,24 +76,29 @@ Signing up is easy and free!
 <br>To create an account, enter a login name and follow the instructions for adding details to your account. You're in! No payments, no spam, no advertisements. Just Star Trek wargaming goodness!
 
 <p>Lost? Wondering how to use the software interface? Check out the <a href='docs/faq.html' target='_BLANK'>Frequently Asked Questions</a>
+<p>Want to join the conversation? Check out our <a href='http://lists.mattnet.org/listinfo.cgi/sfbdrama-mattnet.org'>Mailing List</a>.
 
 </div>
 
 <div class='one'>
 <h3>What's New</h3>
+<p><b>01JAN21</b> With a new year comes a new set of units! Module G3 has been incorporated. This allows the full spread of ships from every product, including all of the products published since then, as well as many of the Captain's Logs. This allows us to confidently allow a whole host of new bugs to creep in, while getting rid of all of the old problems. Yay Progress!!
+<p><b>07SEP20:</b> Several campaigns have been running so far. All will close down at the end of the year so we can have a newly-updated dataset. This dataset will include all of the published ships up to 2015, and some published later. A "kickstarter" goal was hit, so the Omega octant will be included as well!
+<p><b>21OCT17:</b> We've started a new iteration of the campaign. This one reduces the bi-annual income to a mere stipend, and each player is expected to fight for the cash they use on the next season.
+<p><b>14AUG17:</b> We are running on version 1.1. The campaign codebase has been posted to <a href='https://github.com/MattNet/dramatic-sfb' target='_BLANK'>github</a> under a GPL license.
 <p><b>16MAR16:</b> Version 0.21a is up and running. This is the final release candidate.
-<p><b>25FEB16:</b> Version 0.2a has been installed, giving the world a whole host of new bugs. This version imported a completed login portal and updated a little bit of art.
-<p><b>20JUL15:</b> Version 0.13a has been installed.
-<br>This includes the ability to change I/O modules mid-game and add player positions mid-game.
-<p><b>29JUN15:</b> Version 0.12b has been installed.
-<br>This includes a myriad of changes and bugfixes, such as allowing names for ships and empires, adding the NEWBORDER reward to scenarios, and changing the table names so multiple campaign packages can work side-by-side on the server.
-<p><b>27APR15</b> After over a year of development, version 0.1b has been released!
+<p><b>25FEB16:</b> <!-- Version 0.2a has been installed, giving the world a whole host of new bugs. This version imported a completed login portal and updated a little bit of art. -->
+<p><b>20JUL15:</b> <!-- Version 0.13a has been installed.
+<br>This includes the ability to change I/O modules mid-game and add player positions mid-game. -->
+<p><b>29JUN15:</b> <!-- Version 0.12b has been installed.
+<br>This includes a myriad of changes and bugfixes, such as allowing names for ships and empires, adding the NEWBORDER reward to scenarios, and changing the table names so multiple campaign packages can work side-by-side on the server. -->
+<p><b>27APR15</b><!--  After over a year of development, version 0.1b has been released! -->
 </div>
 </div> <!-- end container -->
 
 <div class='footer'>
 <img src='commercial.thumb.png' width='300px' onclick='videoChange( this, "commercial" )'>
-<br>Copyright &copy; 2015, 2016 Matthew Potter
+<br>Copyright &copy; 2015 - 2018 Matthew Potter
 </div>
 
 </body></html>

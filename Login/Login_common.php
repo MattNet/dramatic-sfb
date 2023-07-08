@@ -228,10 +228,9 @@ function sanitizeRace( $empObj, $gameID )
   global $userObj;
   $output = false;
 
-
   if( method_exists( $empObj, 'modify' ) )
   {
-    // does this player plays this empire?
+    // does this player play this empire?
     if( $empObj->modify('player') == $userObj->modify('id') )
       $output = true;
 
@@ -241,7 +240,7 @@ function sanitizeRace( $empObj, $gameID )
   }
   else
   {
-    // does this player plays this empire?
+    // does this player play this empire?
     // this assumes we are still importing a playerobj from the DB
     if( $empObj['player'] == $userObj->modify('id') )
       $output = true;

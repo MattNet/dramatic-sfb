@@ -12,8 +12,6 @@ class Game extends BaseObject
   const TURN_SECTION_LATE	= 2;
 
   protected $currentTurn	= 0;
-  protected $currentSubTurn	= 0; // Number of sub-turns that have passed since the last $currentTurn.
-                                     // If this reaches $buildSpeed then we do a real turn.
   protected $gameName	= "";
   protected $gameStart	= 0; // The starting year of the game
   protected $interestedPlayers	= ""; // comma delim'd list of player IDs that are interested in the game
@@ -29,8 +27,8 @@ class Game extends BaseObject
   protected $allowPublicUnits	= true; // flag for wether to allow all players to see the units of other players
   protected $allowPublicScenarios	= true; // flag for wether to allow all players to see the encounters of other players
   protected $borderSize	= 0; // the number of encounters to run per border
-  protected $buildSpeed	= 0; // the number of "sub" turns per turn. Income stockpiling and builds do not occur on these turns
-  protected $campaignSpeed	= 0; // the number of turns per "year"
+  protected $buildSpeed	= 0; // the number of "fighting-only" turns per "year". Income stockpiling and builds do not occur on these turns
+  protected $campaignSpeed	= 0; // the number of income-generating turns per "year"
   protected $largestSizeClass	= 0; // the largest size-class allowed. Note that the smaller this number, the larger the ships allowed
   protected $moduleBidsIn	= ""; // function name of module to send the incoming encounter-bids feed through
   protected $moduleBidsOut	= ""; // function name of module to send the outgoing encounter-bids feed through
@@ -106,6 +104,64 @@ class Game extends BaseObject
     $interest = explode( ",", $this->interestedPlayers );
     $output = in_array( $playerID, $interest );
     return $output;
+  }
+
+  ###
+  # Modifies or retrieves a property of this object.
+  # This overloaded function sanity-checks input values
+  ###
+  # Args are:
+  # - (string) The property to adjust
+  # - (string) [optional] The value to use. Set to null if no value is to be set
+  # Returns:
+  # - (string) the adjusted property
+  ###
+  function modify( $property, $value=null )
+  {
+    if( $value != null )
+      switch($property)
+      {
+      case 'allowConjectural':
+        $this->allowConjectural = (bool) $value;
+        break;
+      case 'allowPublicUnits':
+        $this->allowPublicUnits = (bool) $value;
+        break;
+      case 'borderSize':
+        $this->borderSize = (int) $value;
+        break;
+      case 'buildSpeed':
+        $this->buildSpeed = (int) $value;
+        break;
+      case 'campaignSpeed':
+        $this->campaignSpeed = (int) $value;
+        break;
+      case 'currentTurn':
+        $this->currentTurn = (int) $value;
+        break;
+      case 'gameStart':
+        $this->gameStart = (int) $value;
+        break;
+      case 'largestSizeClass':
+        $this->largestSizeClass = (int) $value;
+        break;
+      case 'moderator':
+        $this->moderator = (int) $value;
+        break;
+        case 'overwhelmingForce':
+        $this->overwhelmingForce = (int) $value;
+        break;
+      case 'turnSection':
+        $this->turnSection = (int) $value;
+        break;
+      case 'useExperience':
+        $this->useExperience = (bool) $value;
+        break;
+      case 'useUnitSwapping':
+        $this->useUnitSwapping = (bool) $value;
+        break;
+      }
+    return parent::modify( $property, $value );
   }
 
   ###

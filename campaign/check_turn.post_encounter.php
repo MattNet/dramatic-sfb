@@ -96,6 +96,7 @@ else
 
 incrementalLogOutput( $output );
 
+exit();
 
 ###
 # Adds the given output to the logging method

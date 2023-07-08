@@ -1,1 +1,105 @@
-/home/www/sfbdrama/style/simple.css
+body{
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+img.scenario{
+  height:60px;
+  width:68px;
+}
+a
+{
+  text-decoration: none;
+}
+a:hover, a:focus
+{
+}
+a:visited
+{
+}
+td {
+  vertical-align:top;
+}
+
+.in_games > a, .open_games > a, .empire_entry > a
+{
+}
+.in_games > a:hover, .in_games > a:focus, .open_games > a:hover, .open_games > a:focus, .empire_entry > a.empire:hover, .empire_entry > a.empire:focus
+{
+}
+.in_games > a:active, .open_games > a:active, .empire_entry > a.empire:active
+{
+}
+.empire_entry > a.player:hover, .empire_entry > a.player:focus
+{
+}
+.empire_entry > a.player:active
+{
+}
+
+.in_games > a:link {
+}
+.in_games > a:visited {
+}
+
+.open_games_header {
+}
+.in_games_header {
+}
+
+.orders_tag > a, .account_tag > a, .advance_tag > a, .back_tag > a, .log_tag > a,  .playerAction > a, .button > a
+{
+  display: inline-block;
+  height: 18px;
+  border-top: 1px solid #FFFFFF;
+  background: #000000;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
+  background: -webkit-linear-gradient(top, #ffffff, #cccccc);
+  background: -moz-linear-gradient(top, #ffffff, #cccccc);
+  background: -ms-linear-gradient(top, #ffffff, #cccccc);
+  background: -o-linear-gradient(top, #ffffff, #cccccc);
+  padding: 2px 10px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+  box-shadow: rgba(0,0,0,1) 0 1px 0;
+  color: #000000;
+  font-size: 14px;
+  vertical-align: middle;
+}
+.empire_entry > a
+{
+}
+
+.crippled {
+  color: #810000;
+}
+.rules_link
+{
+}
+.version {
+  font-size: x-small;
+}
+.scenario_table
+{
+}
+.scenario_table_empire
+{
+}
+.scenario_table_scenarios
+{
+  display: inline-block;
+  border: 3px double #999999;
+
+  vertical-align: middle;
+}
+.scenario_table_units
+{
+}
+
+.bid_orders
+{
+  border:5px groove #AAAAAA;
+}

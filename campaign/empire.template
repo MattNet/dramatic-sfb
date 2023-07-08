@@ -62,6 +62,7 @@ var noIssueRedirect = function ( obj )
 <tr style="height:1%;"><td>Econ Pt Income:</td><td><?php echo $resetIncome; ?></td></tr>
 <tr style="height:1%;"><td>Econ Pt Stockpile:</td><td><?php echo $resetStockpile; ?></td></tr>
 <tr style="height:1%;"><td>Borders:</td><td><?php echo $empBorders; ?></td></tr>
+<tr style="height:1%;"><td colspan=2><?php echo $empOrders; ?></td></tr>
 <?php } ?>
 </table></form>
 <?php echo $logTag; ?>

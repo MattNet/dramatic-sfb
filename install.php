@@ -4,12 +4,12 @@
 ###
 
 # These are the login credentials to the MySQL server for a user that has CREATE and GRANT privs
-$DATABASE_SUPERUSER_NAME = "superuser";
-$DATABASE_SUPERUSER_PASSWORD = "ROOTPASSWORD";
+$DATABASE_SUPERUSER_NAME = "root";
+$DATABASE_SUPERUSER_PASSWORD = "stirlingsilver";
 
 # these are the login credentials for the first user of the software
-$SOFTWARE_SUPERUSER_LOGIN = "Gene";
-$SOFTWARE_SUPERUSER_PASSWORD = "Roddenberry";
+$SOFTWARE_SUPERUSER_LOGIN = "Matt";
+$SOFTWARE_SUPERUSER_PASSWORD = "amanda";
 
 require_once( dirname(__FILE__) . "/objects/Login_auth.php" );
 require_once( dirname(__FILE__) . "/objects/user.php" );

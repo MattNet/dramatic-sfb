@@ -130,8 +130,8 @@ if( $EXTRA_ESCORT )
     for( $i=0; $i<$numIterations; $i++ )
     {
       list($result, $reason) = getEscort( $carrierData['sizeClass'], $remainingBPV, ($i+1), $numIterations, $carrierData['yearInService'] );
-var_dump($result);
-var_dump($carrierData['designator']);
+//var_dump($result);
+//var_dump($carrierData['designator']);
 
       if( $result === false )
       {
@@ -239,7 +239,7 @@ function getEscort( $size, $BPV, $escortNum, $totalEscorts, $YIS )
   // iterate through the escorts, looking for a match
   foreach( $escorts as $escortKey=>$escortData )
   {
-var_dump($escortData['designator']);
+//var_dump($escortData['designator']);
     // skip if the SC does not match with what it should be
     if( $escortData['sizeClass'] != $SC )
     {

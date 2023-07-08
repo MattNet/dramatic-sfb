@@ -120,7 +120,7 @@ class ObjList
     $database = gameDB::giveme();
     // check if this object has a 'game' and 'turn' property
     if( ! property_exists($class, 'game') || ! property_exists($class, 'turn') )
-      continue;
+      return false;
     $inputs = array();
     $result = $database->getAllGameTurn( $this->game, $this->turn, $class::table, $objIDList );
     if( $result === false )

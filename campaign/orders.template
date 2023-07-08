@@ -38,7 +38,7 @@ function ElementFind( search_item, obj )
 <div style='color:#993333;'><?php echo $errorTag ?></div>
 
 <?php echo $formTag; ?>
-<h3>The <?php echo $gameObj['gameName']; ?> Game &bull; <?php echo $empireObj['textName']; ?> (<?php echo $empireObj['race']; ?>)</h3>
+<h3>The <?php echo $gameObj['gameName']; ?> Game &bull; <?php echo $empireObj->modify('textName'); ?> (<?php echo $empireObj->modify('race'); ?>)</h3>
 <table id='ordersTable'>
 <tr><th>Order to Give</th><th colspan=2>Ship</th><th>Scenario/Empire</th><th>Available<br>Designs</th><th>Name</th></tr>
 <?php echo $permRows; ?>
@@ -100,21 +100,25 @@ else
   if( TURN_ON_DROP_DOWN_BIDS < 1 ) // if we turn off drop-down bid interface, don't show bid orders in drop-downs
     // find the size of the orderArray without bid orders
     for( var i=0; i < Object.keys(orderArray).length; i++)
-      if(
-          orderArray[ Object.keys(orderArray)[i] ][0] == 'bid'
-        )
+      if( orderArray[ Object.keys(orderArray)[i] ][0] == 'bid' )
         dropDownLength--;
 }
 
 if( TURN_ON_GRAPHIC_BIDS > 0 ) // if we turn on graphical bid interface, show the graphics
   for( i=0; i<Object.keys(unitList).length; i++)
     table.innerHTML = table.innerHTML + shipRow( i, Object.keys(unitList)[i] );
+/*
+  unitList.forEach( function( unit, i )
+    {
+      table.innerHTML = table.innerHTML + shipRow( i, unit );
+    });
+*/
 
 for( var listKey=0, i=orderStartNumber; i < dropDownLength; i++, listKey++)
   table.innerHTML = table.innerHTML + buildRow( i, listKey );
 
 </script>
-<p><?php echo $saveTag ?> &bull; Stockpiled <?php echo $empireObj['storedEP'] ?> EPs
+<p><?php echo $saveTag ?> &bull; Stockpiled <?php echo $empireObj->modify('storedEP') ?> EPs
 </form>
 
 <p><?php echo $processOutput ?>

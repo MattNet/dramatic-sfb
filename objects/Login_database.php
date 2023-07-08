@@ -16,6 +16,8 @@
 # - Updates an existing object in the database
 # getAllGameTurn( $game, $turn, $table, &$values )
 # - Reads all existing objects from the given table that are in the given game and the given turn
+# wash( $string )
+# - escapes a string for use in a query
 # genquery( $query )
 # - A very general query function. Should not be used
 ###
@@ -52,6 +54,7 @@ class DataBase
     $this->mysql_pw_member = $MYSQL_pw_member;
     $this->mysql_user_admin = $MYSQL_user_admin;
     $this->mysql_pw_admin = $MYSQL_pw_admin;
+
 
     if( $asAdmin === true )
       $result = self::superOpen();
@@ -280,7 +283,10 @@ class DataBase
       $this->error_string .= "\n<br>Improper value list supplied to database->updateobj($table, $id).\n";
       return false;
     }
+
     $id = intval($id);
+    if( $id == 0 )
+      return false;
 
     // set up the query string
     $query = "UPDATE $table SET ";
@@ -303,6 +309,7 @@ class DataBase
     {
       $values = implode( ",", array_values($list) );
       $this->error_string .= "\n<br>Error in database->updateObj($table)\n<br>Where values = $values.\n<br>".$this->dblink->error;
+//      $this->error_string .= "<br>".print_r( $list, true );
     }
     return $result;
   }
@@ -334,6 +341,7 @@ class DataBase
         $value2 = "'".$value2."'";
       $query .= " AND $property2=$value2";
     }
+
     if( $result = $this->dblink->query( $query ) )
     {
       $output = false;
@@ -446,7 +454,20 @@ class DataBase
       return false;
     }
   }
-
+  ###
+  # wash( $string )
+  # - escapes a string for use in a query
+  ###
+  # Args are:
+  # - (string) The string to escape
+  # Returns:
+  # - (string) the escaped string
+  ###
+  public function wash( $string )
+  {
+    $query = $this->dblink->real_escape_string($string);
+    return $query;
+  }
 }
 
 ?>

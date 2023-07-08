@@ -1,12 +1,12 @@
 # this file is intended to be used with the mysql cli in the fashion "$ mysql -u root -p < this_file.sql"
 
-create database IF NOT EXISTS DATABASENAME;
-#create user "MEMBERNAME"@"localhost" identified by "MEMBERPASSWORD";
-#grant DELETE, INSERT, SELECT, UPDATE on DATABASENAME.* to "MEMBERNAME"@"localhost";
-#create user "ADMINNAME"@"localhost" identified by "ADMINPASSWORD";
-#grant ALL on DATABASENAME.* to "ADMINNAME"@"localhost";
+create database IF NOT EXISTS starfleetdramacampaign;
+#create user "sfbdrama_member"@"localhost" identified by "amarillodesignboard";
+#grant DELETE, INSERT, SELECT, UPDATE on starfleetdramacampaign.* to "sfbdrama_member"@"localhost";
+#create user "sfbdrama_admin"@"localhost" identified by "genfedkliromkzigortho";
+#grant ALL on starfleetdramacampaign.* to "sfbdrama_admin"@"localhost";
 #FLUSH PRIVILEGES;
-use DATABASENAME;
+use starfleetdramacampaign;
 
 create table sfbdrama_empire (
 dbid INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -46,7 +46,6 @@ borderSize TINYINT NOT NULL DEFAULT 0,
 buildSpeed TINYINT NOT NULL DEFAULT 0,
 campaignSpeed TINYINT NOT NULL DEFAULT 0,
 currentTurn INT NOT NULL DEFAULT 0,
-currentSubTurn INT NOT NULL DEFAULT 0,
 gameName VARCHAR(126) NOT NULL DEFAULT "",
 gameStart INT UNSIGNED NOT NULL DEFAULT 0,
 interestedPlayers VARCHAR(126) NOT NULL DEFAULT "",

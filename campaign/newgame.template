@@ -20,11 +20,11 @@
 <table>
 <tr><td>Game Name:</td><td colspan=3><?php echo $gameNameTag ?></td></tr>
 <tr><td>Starting Year:</td><td><?php echo $startYearTag ?></td><td>Accept-Bids Module:</td><td><?php echo $modBidInTag ?></td></tr>
-<tr><td>Turns per Year:</td><td><?php echo $campaignSpeedTag ?></td><td>Report-Bids Module:</td><td><?php echo $modBidOutTag ?></td></tr>
-<tr><td>BPV Percentage is<br>Overwhelming Force:</td><td><?php echo $overwhelmingForceTag ?></td><td>Accept-Encounters Module:</td><td><?php echo $modEncInTag ?></td></tr>
-<tr><td>Allow Conjectural<br>Designs?</td><td><?php echo $allowConjecturalTag ?></td><td>Report-Encounters Module:</td><td><?php echo $modEncOutTag ?></td></tr>
-<tr><td>Allow Public Info<br>of Current Units:</td><td><?php echo $allowPublicUnitsTag ?></td><td>Largest Size Class:</td><td><?php echo $sizeClassTag ?></td></tr>
-<tr><td>Allow Public Info<br>of Scenarios:</td><td><?php echo $allowPublicScenTag ?></td></tr>
+<tr><td>Income / Build<br>Turns per Year:</td><td><?php echo $campaignSpeedTag ?></td><td>Report-Bids Module:</td><td><?php echo $modBidOutTag ?></td></tr>
+<tr><td>Non-Income<br>Turns per Year:</td><td><?php echo $nonIncomeTurnTag ?></td><td>Accept-Encounters Module:</td><td><?php echo $modEncInTag ?></td></tr>
+<tr><td>Largest Size Class:</td><td><?php echo $sizeClassTag ?></td><td>Report-Encounters Module:</td><td><?php echo $modEncOutTag ?></td></tr>
+<tr><td>BPV Percentage is<br>Overwhelming Force:</td><td><?php echo $overwhelmingForceTag ?></td><td>Allow Public Info of Units:</td><td><?php echo $allowPublicUnitsTag ?></td></tr>
+<tr><td>Allow Conjectural<br>Designs?</td><td><?php echo $allowConjecturalTag ?></td><td>Allow Public Info<br>of Scenarios:</td><td><?php echo $allowPublicScenTag ?></td></tr>
 <tr><td>&nbsp;</td></tr>
 <tr><td colspan=4><?php echo $startTag ?></td></tr>
 </table>

@@ -24,11 +24,11 @@ $LOGIN_START_FILE = "/index.php";	// The file to access the login process, used 
 ###
 $MYSQL_server = "localhost";
 //$MYSQL_server = "mysql.sfbdrama.mattnet.org";
-$MYSQL_database = "DATABASENAME";
-$MYSQL_user_member = "MEMBERNAME";
-$MYSQL_pw_member = "MEMBERPASSWORD";
-$MYSQL_user_admin = "ADMINNAME";
-$MYSQL_pw_admin = "ADMINPASSWORD";
+$MYSQL_database = "starfleetdrama";
+$MYSQL_user_member = "sfbdrama_member";
+$MYSQL_pw_member = "amarillodesignboard";
+$MYSQL_user_admin = "sfbdrama_admin";
+$MYSQL_pw_admin = "genfedkliromkzigortho";
 
 
 ###
@@ -62,7 +62,12 @@ $PRIVILEDGE_LEVELS = array(
 # These are represented by CSS files that adjust the look of the HTML presentation
 ###
 $THEMES = array(
-"simple"
+"federation",
+"gorn",
+"hydran",
+"klingon",
+"simple",
+"vudar"
 );
 
 ?>

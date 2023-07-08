@@ -58,8 +58,13 @@ if( $raceID <= 0 )
     $designList = json_decode($matches[0][3], true);
     $encounterList = json_decode($matches[0][4], true);
     $empireList = json_decode($matches[0][5], true);
-    $empireObj = json_decode($matches[0][1], true);
+    $empireList = json_decode($matches[0][1], true);
     $unitList = json_decode($matches[0][2], true);
+
+    // read the empire object from the data file
+    $empireObj = new Empire( $empireList, true ); // set it to read-only
+    $empireObj->getID( "turn", "textName" );
+    $empireObj->read();
   }
   else
   {
@@ -93,9 +98,9 @@ $jsRows = "orderArray = {};\n"; // previously-given orders as a JSON object
 $logOutTag = "<a href='$GOTO_ON_LOGOUT'>LOG OUT</a>";
 $ordersFileContents = "";
 $permRows = ""; // previously-given orders as HTML rows and hidden inputs
-$playerID = $empireObj['player'];
 $processOutput = populateScenarioList( $gameTurn, $gameID, $raceID );
 $saveTag = "<input type='submit' value='Save Orders'>\n";
+//print_r($empireObj);exit;
 
 ### start order-table assembly
 
@@ -160,7 +165,6 @@ if( file_exists($orderFileName) )
     unset( $order );
   }
 }
-
 ### end order-table assembly
 
 // display the page

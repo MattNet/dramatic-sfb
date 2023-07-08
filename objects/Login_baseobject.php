@@ -31,6 +31,7 @@ class BaseObject
   protected $id	= 0; // an identifier that does not change for the life of the object. used to track an object across entries, etc.
   protected $taint	= false;
   protected $autowrite	= false;
+  protected $READONLY	= false;
 
   public $error_string	= "";
 
@@ -47,13 +48,16 @@ class BaseObject
   # Returns:
   # - None
   ###
-  function __construct( $id = 0 )
+  function __construct( $id = 0, $readOnly = false )
   {
+    if( $readOnly )
+      $this->READONLY = true;
     if( is_array( $id ) )
     {
       foreach( $id as $property=>$value )
         $this->$property = $value;
-      $this->taint = self::IS_DIRTY; // so that it will write itself to the DB later
+      if( ! $this->READONLY )
+        $this->taint = self::IS_DIRTY; // so that it will write itself to the DB later
       $this->autowrite = true;
     }
     else
@@ -73,15 +77,14 @@ class BaseObject
   ###
   function __destruct()
   {
-    $result = true;
     if( $this->taint == self::IS_DIRTY && $this->autowrite )
     {
       if( self::DEBUG_SHOW_WRITTEN_OBJECTS )
         echo "Object ".get_class($this)." #".$this->id." to be destroyed.\n";
       $result = $this->update();
+      if( $result == false )
+        die( "\n<br>Unable to destroy object '".get_class($this)."'. ".$this->error_string );
     }
-    if( $result == false )
-      die( "\n<br>Unable to destroy object '".get_class($this)."'. ".$this->error_string );
   }
 
   ###
@@ -94,6 +97,11 @@ class BaseObject
   ###
   function create()
   {
+    if( $this->READONLY )
+    {
+      $this->error_string .= "\n<br>Error in ".get_class($this)."->create(): Object is read only.";
+      return false;
+    }
     if( $this->id != 0 )
       return $this->update();
     $database = DataBase::giveme();
@@ -120,6 +128,11 @@ class BaseObject
   ###
   function destroy()
   {
+    if( $this->READONLY )
+    {
+      $this->error_string .= "\n<br>Error in ".get_class($this)."->destroy(): Object is read only.";
+      return false;
+    }
     $database = DataBase::giveme();
     $tableName = constant(get_class($this)."::table");
     $result = $database->destroyobj( $tableName, $this->id );
@@ -149,7 +162,7 @@ class BaseObject
       $this->error_string .= "\n<br>Attempt to retrieve '$property' in '".get_class($this)."' for item '".$this->id."'. Property does not exist";
       return false;
     }
-    if( isset( $value ) && $this->$property != $value )
+    if( ! $this->READONLY && isset( $value ) && $this->$property != $value )
     {
       $this->$property = $value;
       $this->taint = self::IS_DIRTY;
@@ -207,6 +220,11 @@ class BaseObject
   ###
   function update()
   {
+    if( $this->READONLY )
+    {
+      $this->error_string .= "\n<br>Error in ".get_class($this)."->create(): Object is read only.";
+      return false;
+    }
     if( $this->id == 0 )
       return $this->create();
     $database = DataBase::giveme();
@@ -229,6 +247,7 @@ class BaseObject
   ###
   # Args are:
   # - (string) a property to use to further identify oneself. 
+  # - (string) a second property to use to further identify oneself. 
   # Returns:
   # - (boolean) true for success, false for failure
   ###

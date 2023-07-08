@@ -201,8 +201,8 @@ function populateGameLists( $playerID )
         // possibly empty this $empireData for games where this player is not the moderator 
         else if( ! $empireData[$key]['mod'] )
         {
-          // empty the data if the game's currentTurn doesn't match the data's turn
-          if( $row['currentTurn'] != $empireData[$key]['empTurn'] )
+          // empty the data if the game's currentTurn is larger than the data's turn
+          if( $row['currentTurn'] > $empireData[$key]['empTurn'] )
             unset( $empireData[$key] );
         }
       }

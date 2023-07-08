@@ -13,7 +13,8 @@
 # There is a blank column between ROW A blocks
 # the first column is a turn # heading for rows C+ and blank for rows A & B
 ###
-
+# select SUM(BPV) from sfbdrama_shipdesign inner join (select design from sfbdrama_ship where empire=$empID and turn=$turnNum) ships on  sfbdrama_shipdesign.id=ships.design;
+###
 
 
 $OUTPUT_FILE = dirname(__FILE__) . "/status.csv"; // the file to put the csv output
@@ -114,8 +115,9 @@ foreach( $range as $turnNum )
       case "BPV":
         $num = 0;
         // add the BPV from this player's fleet together
-        $subquery = "select design from ".Ship::table." where empire=$empID and turn=$turnNum";
-        $query = "select SUM(BPV) from ".ShipDesign::table." inner join ($subquery) ships on ".ShipDesign::table.".id=ships.design";
+        $query = "select SUM(BPV) from ".Ship::table." ships left join ";
+        $query .= ShipDesign::table." design on design.id=ships.design where ";
+        $query .= "ships.game=$gameID and ships.turn=$turnNum and ships.empire=$empID";
 
         $result = $database->genquery( $query, $num);
         if( ! $result )

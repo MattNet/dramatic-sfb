@@ -56,18 +56,24 @@ if( ! empty( $_REQUEST[$ADJUST_OTHER_GET_STRING] ) && ( $canDelete || $canChange
   if( $canDelete || $canChange )
   {
     $acctList = populateAcctLists();
-    $amt = count($acctList) * $LIST_SIZE; // amount of the list to show
+    if( ! $acctList )
+      redirect($GOTO_ON_FAIL);
+/*
+    $amt = strlen($acctList) * $LIST_SIZE; // amount of the list to show
     if( $size < $amt )
       $size = $amt;
+*/
     // add the HTML select container around the acctList
     $acctList = "<select name='$OTHER_ACCT_GET_STRING' size=$size>\n".$acctList."</select>";
   }
   if( $canApprove )
   {
     $appList = populateAppLists();
-    $amt = count($appList) * $LIST_SIZE; // amount of the list to show
+/*
+    $amt = strlen($appList) * $LIST_SIZE; // amount of the list to show
     if( $size < $amt )
       $size = $amt;
+*/
     // add the HTML select container around the appList. Note the same HTML 'name' as the $acctList
     $appList = "<select name='$OTHER_ACCT_GET_STRING' size=$size>\n".$appList."</select>";
   }

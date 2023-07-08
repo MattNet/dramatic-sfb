@@ -22,14 +22,12 @@ $EMAIL_ADDRESS = "sfbdrama.mattnet.org";	// the hostname portion of the email ad
 $STOP_ON_MISSING_ORDERS = true;	// set to true if the turn processing should stop when someone has no orders in
 $STOP_ON_UNFINISHED_SCENARIOS = true;	// set to true if the turn processing should stop when there are unresolved scenarios
 $VERSION = "StarFleetDramaCampaign v1.1";	// The software version
-
 ###
 # Empires available to 'basicRace' priv level
 ###
 $BASICRACE_EMPIRES = array(
 "WYN"
 );
-
 ###
 # Available Encounters Modules
 ###
@@ -43,7 +41,6 @@ $MODULE_ENCOUNTERS_OUT = array(
 // "encounterOutHorizTable",
  "encounterOutVertTable"
 );
-
 ###
 # Available Encounters Modules
 ###
@@ -54,7 +51,6 @@ $MODULE_ENCOUNTERS_OUT = array(
 $MODULE_ENCOUNTERS_IN = array(
  "EncounterInFile"
 );
-
 ###
 # Available Ship-Bidding Modules
 ###
@@ -68,7 +64,6 @@ $MODULE_BIDS_OUT = array(
 // "bidOutHorizTable",
  "bidOutVertTable"
 );
-
 ###
 # Available Ship-Bidding Modules
 ###
@@ -79,6 +74,4 @@ $MODULE_BIDS_OUT = array(
 $MODULE_BIDS_IN = array(
  "BidInFile"
 );
-
-
 ?>

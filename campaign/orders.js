@@ -252,12 +252,14 @@ function shipRow( rowIndex, listIndex )
   {
     var listKey = Object.keys(encounterList)[i];
     // If we have an order for this ship, propogate the order with the next submit
+    // else, kill the order entirely
     if( ourEncounterID > -1 && ourEncounterID == listKey )
     {
       output += "<input type='hidden' name='order"+rowIndex+"' value='bid'>";
       output += "<input type='hidden' name='ship"+rowIndex+"' value='"+unitList[listIndex][0]+"'>";
       output += "<input type='hidden' name='scenario"+rowIndex+"' value='"+listKey+"'>\n";
     }
+
     // do the regular scenario list
     output += "<a href='#' title='"+encounterList[listKey][0]+" #"+listKey+"' onclick='submitImage(this,";
     output += rowIndex+","+unitList[listIndex][0]+","+listKey+")'><img src='../scenarios/";

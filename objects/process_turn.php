@@ -23,7 +23,6 @@ draw encounters.
 build / convert units
 Announce encounters (via module) to all players.
 */
-## noborder then EPs give no EPs
 require_once( dirname(__FILE__) . "/../objects/game.php" );
 require_once( dirname(__FILE__) . "/../objects/obj_list.php" );
 require_once( dirname(__FILE__) . "/../objects/shipdesign.php" );
@@ -43,7 +42,7 @@ class ProcessTurn
   protected $turnNum = 0;
 
   public $outputDisplay = "";
-  public $DISPLAY_ODDS = false;	// if true, will output the odds and random numbers used inside the processing
+  public $DISPLAY_ODDS = true;	// if true, will output the odds and random numbers used inside the processing
 
   function __construct( $gameID, $turnNum )
   {
@@ -55,7 +54,8 @@ class ProcessTurn
     $this->encounterObjs = new objList( "encounter", $this->gameID, $this->turnNum );
     $this->shipObjs = new objList( "ship", $this->gameID, $this->turnNum );
 
-    $this->currentYear = $this->gameObj->modify('gameStart') + floor( $this->turnNum / $this->gameObj->modify('campaignSpeed') );
+    $this->currentYear = $this->gameObj->modify('gameStart');
+    $this->currentYear += floor( $this->turnNum / ($this->gameObj->modify('campaignSpeed') + $this->gameObj->modify('buildSpeed')) );
 
     // seed the random generator
     $this->_randomSeed();
@@ -246,8 +246,6 @@ class ProcessTurn
     $output = false;
     $designID = intval( $designID );
     if( $designID <= 0 ) // error out if the design is not defined
-      return false;
-    if( $this->gameObj->modify('currentSubTurn') > 0 ) // error out if we cannot build this turn
       return false;
 
     $targetShipDesign = new ShipDesign( $designID );
@@ -808,7 +806,7 @@ class ProcessTurn
       foreach( $decodedOrders['destroy'] as $shipID )
       {
         $this->shipObjs->objByID[$shipID]->modify('damage', 100 );
-        $this->shipObjs->objByID[$shipID]->modify('isDead', true );
+        $this->shipObjs->objByID[$shipID]->modify('isDead', 1 );
         $countKills++;
       }
       // cripple units
@@ -855,7 +853,7 @@ class ProcessTurn
         if( $shipObj->modify('empire') != $empID )
           continue;
         $shipObj->modify('damage', 100 );
-        $shipObj->modify('isDead', true );
+        $shipObj->modify('isDead', 1 );
         $shipObj->update();
         $countKills++;
       }
@@ -889,6 +887,7 @@ class ProcessTurn
     $runningTotal = 0; // used to track the actual chance that a given scenario will come up
     $precision = 100; // amt to multiply the scenario chances, so as to allow for very small chances to draw encounters
     $count = 0;
+    $flag = false; // Flag variable to ensure alls cenarios are assigned
 
     // Get a list of all the borders, who is involved, and how many to draw
     foreach( $this->empireObjs->objByID as $empireID=>$empireObj )
@@ -940,6 +939,8 @@ class ProcessTurn
           if( $this->DISPLAY_ODDS )
             $this->outputDisplay .= "<br>Previous random number less than or equal to $index, to select the scenario #$scenario.\n";
 
+          $flag = true; // set the flag to allow that the scenario might not be assigned
+
           // if $chance is less than or equal to $index, then it is already greater than the last $index we examined
           if( $chance <= $index )
           {
@@ -966,8 +967,37 @@ class ProcessTurn
             $this->encounterObjs->push($newEncounter);
             unset($newEncounter);
             $count++;
+            $flag = false; // re-set the flag to indicate the scenario was indeed assigned
             break;
           }
+        }
+        // If true, a rounding error occured that allowed $chance to be larger than the last scenario's (adjusted) index
+        // fix by creating an encounter for the last scenario in the file
+        if( $flag )
+        {
+          // flip a coin to see who is player A for this
+          $rand = rand(1,100);
+          if( $this->DISPLAY_ODDS )
+            $this->outputDisplay .= "<br>Random number to find defender: $rand. High numbers find the second player as defender.\n";
+
+          if( $rand <= 50 )
+          {
+            $playerA = $borderArray['empA'];
+            $playerB = $borderArray['empB'];
+          }
+          else
+          {
+            $playerA = $borderArray['empB'];
+            $playerB = $borderArray['empA'];
+          }
+          $newEncounter = new Encounter( array(
+                'game'=>$this->gameID, 'playerA'=>$playerA, 'playerB'=>$playerB, 
+                'scenario'=>count($scenarioIndex)-1, 'status'=>Encounter::NEEDS_RESOLUTION, 'turn'=>$this->turnNum
+              ) );
+          $newEncounter->create();
+          $this->encounterObjs->push($newEncounter);
+          unset($newEncounter);
+          $count++;
         }
       }
     }
@@ -991,7 +1021,8 @@ class ProcessTurn
     $this->outputDisplay .= "<h3>End of Turn {$this->turnNum}</h3>\n";
 
     $this->turnNum += 1;
-    $this->currentYear = $this->gameObj->modify('gameStart') + floor( $this->turnNum / $this->gameObj->modify('campaignSpeed') );
+    $this->currentYear = $this->gameObj->modify('gameStart');
+    $this->currentYear += floor( $this->turnNum / ($this->gameObj->modify('campaignSpeed') + $this->gameObj->modify('buildSpeed')) );
 
     // kill the lookup lists
     $this->gameObj->__destruct();
@@ -1016,11 +1047,13 @@ class ProcessTurn
   {
     $this->outputDisplay .= "<br>&nbsp; <b>Generating Income.</b>\n";
 
+/*******
     if( $this->gameObj->modify('currentSubTurn') > 0 ) // don't do anything if we cannot add income this turn
     {
       $this->outputDisplay .= "<br>&nbsp; &bull; Income is not added during this sub-turn.\n";
       return false;
     }
+********/
 
     foreach( $this->empireObjs->objByID as $empireObj )
     {
@@ -1045,12 +1078,18 @@ class ProcessTurn
     $countConversions = 0;
     $countRepairs = 0;
 
-    if( $this->gameObj->modify('currentSubTurn') > 0 ) // don't do anything if we cannot do builds this turn
+
+/*******
+//$this->currentYear = $this->gameObj->modify('gameStart') + floor( $this->turnNum / $this->gameObj->modify('campaignSpeed') );
+    $tempTurn = $this->turnNum / ($this->gameObj->modify('campaignSpeed') + $this->gameObj->modify('buildSpeed') );
+//(intval($tempTurn) != $tempTurn); // Only true once per year?
+
+    if( $this->gameObj->modify('buildSpeed') > 0 &&  ) // don't do anything if we cannot do builds this turn
     {
       $this->outputDisplay .= "<br>&nbsp; &bull; Shipyard activity cannot be performed during this sub-turn.\n";
       return false;
     }
-
+********/
     foreach( $this->ordersObjs->objByID as $orders )
     {
       if( ! isset( $this->empireObjs->objByID[ $orders->modify('empire') ] ) )
@@ -1276,7 +1315,7 @@ class ProcessTurn
 
     // set all empires to "not ready to advance"
     foreach( $this->empireObjs->objByID as $empObj )
-      $empObj->modify('advance', false);
+      $empObj->modify('advance', 0);
 
   }
 

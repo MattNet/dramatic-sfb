@@ -3,11 +3,11 @@
 $ADD_NEWLINES_TO_OUTPUT = false;	// adds HTML breaks to the script output if true
 $ADVANCE_ENCOUNTERS_TEXT = "Advance Past Encounters";	// text for the encounter-advancement button
 $ADVANCE_ORDERS_TEXT = "Advance Past Orders";	// text for the order-advancement button
-$ADVANCE_PAST_BIDDING = dirname(__FILE__) . "/process_turn.pre_encounter.php"; // script to advance a game after the orders are in
-$ADVANCE_PAST_ENCOUNTERS = dirname(__FILE__) . "/process_turn.post_encounter.php"; // script to advance a game after the encounters are in
+$ADVANCE_PAST_BIDDING = "php -f " . dirname(__FILE__) . "/process_turn.pre_encounter.php"; // script to advance a game after the orders are in
+$ADVANCE_PAST_ENCOUNTERS = "php -f " . dirname(__FILE__) . "/process_turn.post_encounter.php"; // script to advance a game after the encounters are in
 $AUTO_ADVANCE_OPENING_GAME = true;	// set to true to automatically call $ADVANCE_PAST_ENCOUNTERS when opening a game
-$CHECK_BIDDING = dirname(__FILE__) . "/check_turn.pre_encounter.php"; // script to advance a game after the orders are in
-$CHECK_ENCOUNTERS = dirname(__FILE__) . "/check_turn.post_encounter.php"; // script to advance a game after the encounters are in
+$CHECK_BIDDING = "php -f " . dirname(__FILE__) . "/check_turn.pre_encounter.php"; // script to advance a game after the orders are in
+$CHECK_ENCOUNTERS = "php -f " . dirname(__FILE__) . "/check_turn.post_encounter.php"; // script to advance a game after the encounters are in
 $CHECK_ENCOUNTERS_TEXT = "Check For Encounter Errors";	// text for the encounter-advancement button
 $CHECK_ORDERS_TEXT = "Check For Order Errors";	// text for the order-advancement button
 $GOTO_ON_FAIL = "/index.php";	// page to serve if we've had very serious errors
@@ -66,6 +66,8 @@ $realGameObj = loadOneObject( "game", $gameID, "$GOTO_ON_BACK?".$authObj->getSes
     'gameYear' => $realGameObj->gameYear()
   );
 
+//print_r($realGameObj);var_dump($realGameObj->modify('moderator'));exit();
+
 $modPlayerObj = loadOneObject( "user", $realGameObj->modify('moderator'), "$GOTO_ON_BACK?".$authObj->getSessionRequest() );
 
 $gameObj['modName'] = $modPlayerObj->modify('fullName');
@@ -86,7 +88,8 @@ if( $raceID == 0 && $realGameObj->modify('moderator') != $userObj->modify('id') 
   redirect( "$GOTO_ON_BACK?".$authObj->getSessionRequest() );
 
 $gameTurn = $realGameObj->modify('currentTurn');
-$stdURLSuffix =	"?game=$gameID&race=$raceID&".$authObj->getSessionRequest();
+$stdURLSuffix = "?game=$gameID&race=$raceID&".$authObj->getSessionRequest();
+//$stdURLSuffix = "?game=$gameID&empire=$raceID&".$authObj->getSessionRequest();
 
 if( $raceID > 0 )
 {
@@ -95,13 +98,14 @@ if( $raceID > 0 )
   {
     $state = $empireObj->modify('advance');
     if( ! $state )
-      $empireObj->modify('advance', true);
+      $empireObj->modify('advance', 1);
     else
-      $empireObj->modify('advance', false);
+      $empireObj->modify('advance', 0);
     $empireObj->update();
   }
 }
 
+// modify the game name
 if( ! empty($_REQUEST[ $RENAME_GAME_TEXT ]) && $_REQUEST[ $RENAME_GAME_TEXT ] != $realGameObj->modify('gameName') && $raceID == 0 )
 {
   $realGameObj->modify('gameName', $_REQUEST[ $RENAME_GAME_TEXT ]);
@@ -109,21 +113,25 @@ if( ! empty($_REQUEST[ $RENAME_GAME_TEXT ]) && $_REQUEST[ $RENAME_GAME_TEXT ] !=
   $gameObj['gameName'] = $realGameObj->modify('gameName');
 }
 
+// modify the input bid module
 if( ! empty($_REQUEST['modbidin']) && $_REQUEST['modbidin'] != $realGameObj->modify('moduleBidsIn') && $raceID == 0 )
 {
   $realGameObj->modify( 'moduleBidsIn', $_REQUEST['modbidin'] );
   $realGameObj->update();
 }
+// modify the output bid module
 if( ! empty($_REQUEST['modbidout']) && $_REQUEST['modbidout'] != $realGameObj->modify('moduleBidsOut') && $raceID == 0 )
 {
   $realGameObj->modify( 'moduleBidsOut', $_REQUEST['modbidout'] );
   $realGameObj->update();
 }
+// modify the input encounter module
 if( ! empty($_REQUEST['modencin']) && $_REQUEST['modencin'] != $realGameObj->modify('moduleEncountersIn') && $raceID == 0 )
 {
   $realGameObj->modify( 'moduleEncountersIn', $_REQUEST['modencin'] );
   $realGameObj->update();
 }
+// modify the output encounter module
 if( ! empty($_REQUEST['modencout']) && $_REQUEST['modencout'] != $realGameObj->modify('moduleEncountersOut') && $raceID == 0 )
 {
   $realGameObj->modify( 'moduleEncountersOut', $_REQUEST['modencout'] );
@@ -139,7 +147,7 @@ if( ! empty($_REQUEST['newposition']) && $raceID == 0 )
 
   // create the new Empire object
   $options = array(
-    'advance' => false,
+    'advance' => 0,
     'ai' => "",
     'borders' => "",
     'game' => $gameID,
@@ -183,7 +191,7 @@ if( ! empty($_REQUEST['advance']) &&
       // reset each empire's "ready" flag
       foreach( $empireDBList->objByID as $obj )
       {
-        $obj->modify('advance',false);
+        $obj->modify('advance',0);
         $obj->update();
       }
       // update the user's session timestamp for idleness
@@ -517,7 +525,7 @@ function populateEmpireList()
     $playerID = $obj->modify('player');
     $playerObj = "";
     $status = "Please wait";
-    if( $obj->modify('advance') == true )
+    if( $obj->modify('advance') == 0 )
       $status = "Ready to advance";
 
     // attempt to load up the player object if we have a player ID
@@ -552,7 +560,7 @@ function populateEmpireList()
     if( ! $result )
       continue;
     // make it so the player object won't save itself
-    $playerObj->modify( 'autowrite', false );
+    $playerObj->modify( 'autowrite', 0 );
 
     // generate the interest entry
     $status = "";

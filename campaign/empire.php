@@ -56,7 +56,7 @@ if( ! empty( $_REQUEST['player'] ) )
 }
 
 // set the $inputEmpire stuff
-if( ! empty( $_REQUEST['empire'] ) )
+if( isset( $_REQUEST['empire'] ) && ! empty( $_REQUEST['empire'] ) )
 {
   $inputEmpire = intval( $_REQUEST['empire'] );
   $inputEmpireObj = loadOneObjectTurn( 'empire', $inputEmpire, $GOTO_ON_BACK.$stdURLSuffix, $gameTurn );
@@ -73,7 +73,6 @@ if( ! empty( $_REQUEST['empire'] ) )
   $empStoredEP = $inputEmpireObj->modify('storedEP');	// amount of stored EPs for this empire
   $empBorders = borderListHTML( $inputEmpireObj->bordersDecode(), $inputEmpire );
 }
-
 
 // Check that the current player is the game's moderator and/or able to advance this game
 if( $modPlayerObj->modify('id') == $userObj->modify('id') && $authObj->checkPrivs( $userObj, "advance" ) )
@@ -138,26 +137,29 @@ if( ! empty($_REQUEST['delete']) && $inputEmpireObj &&
 // Set player to the empty empire
 if( ! empty($_REQUEST['setPlayer']) && $inputEmpireObj && $inputEmpireObj->modify('player') == 0 )
 {
-  $playerID = intval($_REQUEST['setPlayer']);
-  if( $playerID <= 0 )
-    continue;
+  do // a DO loop to provide a break to IF statement
+  {
+    $playerID = intval($_REQUEST['setPlayer']);
+    if( $playerID <= 0 )
+      break;
 
-  $gameObj->removeInterest( $playerID );
-  $inputEmpireObj->modify('player', $playerID );
-
+    $gameObj->removeInterest( $playerID );
+    $inputEmpireObj->modify('player', $playerID );
 /*
-  // change the turn-summary (html) file to this playerID, if exists
+    // change the turn-summary (html) file to this playerID, if exists
 // needed only if the filename is based on playerIDs, not empireID
-  if( is_file("$BID_IN_DIRECTORY/0input".$gameID."to".$gameTurn.".txt") )
-    rename(
-      "$BID_IN_DIRECTORY/0input".$gameID."to".$gameTurn.".txt",
-      "$BID_IN_DIRECTORY/".$playerID."input".$gameID."to".$gameTurn.".txt"
-    );
+    if( is_file("$BID_IN_DIRECTORY/0input".$gameID."to".$gameTurn.".txt") )
+      rename(
+        "$BID_IN_DIRECTORY/0input".$gameID."to".$gameTurn.".txt",
+        "$BID_IN_DIRECTORY/".$playerID."input".$gameID."to".$gameTurn.".txt"
+      );
 */
 
-  $gameObj->update();
-  $inputEmpireObj->update();
-  redirect( $_SERVER['PHP_SELF']."$stdURLSuffix&empire=$inputEmpire" );
+    $gameObj->update();
+    $inputEmpireObj->update();
+    redirect( $_SERVER['PHP_SELF']."$stdURLSuffix&empire=$inputEmpire" );
+  }
+  while(false);
 }
 
 // Change the empire at this game position
@@ -174,7 +176,7 @@ if( ! empty($_REQUEST[$actionEmpireTagName]) && empty($inputEmpireObj) )
 {
   // create the new Empire object
   $options = array(
-    'advance' => false,
+    'advance' => 0,
     'ai' => "",
     'borders' => "",
     'game' => $gameID,
@@ -186,6 +188,7 @@ if( ! empty($_REQUEST[$actionEmpireTagName]) && empty($inputEmpireObj) )
   );
 
   $obj = new Empire( $options );
+//print_r($options);print_r($obj->error_string);exit();
   $result = $obj->create();
 
   // remove the player form the interested list
@@ -242,7 +245,7 @@ if( ! empty($inputEmpireObj) )
 }
 
 // Change the empire's ships
-for( $i=0; $i<100; $i++ ) // look for $_REQUEST['design0'] -> $_REQUEST['design99']
+for( $i=0; $i<300; $i++ ) // look for $_REQUEST['design0'] -> $_REQUEST['design299']
 {
   if( ! empty($_REQUEST['design'.$i]) &&
       ! empty($inputEmpireObj) &&
@@ -264,8 +267,8 @@ for( $i=0; $i<100; $i++ ) // look for $_REQUEST['design0'] -> $_REQUEST['design9
         'design'	=> $designID,
         'empire'	=> $inputEmpire,
         'game'	=> $gameID,
-        'isDead'	=> false,
-        'locationIsLane'	=> false,
+        'isDead'	=> 0,
+        'locationIsLane'	=> 0,
         'manifest'	=> 0,
         'mapObject'	=> 0,
         'mapSector'	=> 0,
@@ -275,12 +278,10 @@ for( $i=0; $i<100; $i++ ) // look for $_REQUEST['design0'] -> $_REQUEST['design9
       );
       $obj = new Ship( $options );
       $result = $obj->create();
-
       redirect( $url );
     }
 
     // getting this far means the ship exists already
-
     $shipObj = loadOneObjectTurn( 'ship', $shipID, '', $gameTurn );
 
     // if the ship designator hasn't changed
@@ -317,6 +318,7 @@ $ordersTag = "";
 
 $addShipsTag = "";
 $empireName = "";
+$empOrders = "";  // holds the set of orders given last
 $gameName = $gameObj->modify('gameName');
 $gameSpeed = $gameObj->modify('campaignSpeed');
 $gameStatus = $gameObj->modify('status');
@@ -643,6 +645,7 @@ function getDesignList( $empire, $year, $all=false )
     foreach( $list as $row )
       $output[ $row['id'] ] = $row['designator']." - ".$row['BPV']." EP";
   }
+
   return $output;
 }
 

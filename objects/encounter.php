@@ -39,6 +39,43 @@ class Encounter extends BaseObject
   }
 
   ###
+  # Modifies or retrieves a property of this object.
+  # This overloaded function sanity-checks input values
+  ###
+  # Args are:
+  # - (string) The property to adjust
+  # - (string) [optional] The value to use. Set to null if no value is to be set
+  # Returns:
+  # - (string) the adjusted property
+  ###
+  function modify( $property, $value=null )
+  {
+    if( $value != null )
+      switch($property)
+      {
+      case 'game':
+        $this->game = (bool) $value;
+        break;
+      case 'playerA':
+        $this->playerA = (bool) $value;
+        break;
+      case 'playerB':
+        $this->playerB = (int) $value;
+        break;
+      case 'scenario':
+        $this->scenario = (int) $value;
+        break;
+      case 'status':
+        $this->status = (int) $value;
+        break;
+      case 'turn':
+        $this->turn = (int) $value;
+        break;
+      }
+    return parent::modify( $property, $value );
+  }
+
+  ###
   # Returns those properties which need to be stored in the database
   ###
   # Args are:

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" baseProfile="full" style="fill-opacity: 1; color-interpolation: auto; stroke: black; text-rendering: auto; stroke-linecap: square; stroke-miterlimit: 10; stroke-opacity: 1; shape-rendering: auto; fill: black; stroke-dasharray: none; font-weight: normal; stroke-width: 1; font-family: 'Dialog'; font-style: normal; stroke-linejoin: miter; stroke-dashoffset: 0pt; image-rendering: auto;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" width="45" height="45">
+  <defs id="genericDefs"/>
+<g style="fill: black; stroke: darkgrey;"><path d="M10 41l-10 -20 10 -20 25 0 10 20 -10 20 Z"/></g>
+<g style="fill: pink; font-family: monospace; stroke: red;" transform="translate(23,21)">
+
+<!-- Tho NFF -->
+<rect x="-5.25" y="-1" width="11" height="5.5" />
+<path d="M 0.25 -11 l -2.5 5 0 3.5 1.5 1.5 2 0 1.5 -1.5 0 -3.5 -2.5 -5 Z" />
+<path d="M -6.25 -2 l 0 8 1 0 0 -8 -0.5 -0.5 -0.5 0.5 Z" />
+<path d="M 5.75 -2 l 0 8 1 0 0 -8 -0.5 -0.5 -0.5 0.5 Z" />
+
+</g>
+</svg>
